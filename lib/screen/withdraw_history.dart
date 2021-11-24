@@ -1,6 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:havartye/constents/constant.dart';
+import 'package:havartye/controllers/transaction_controller.dart';
+import 'package:havartye/controllers/withdraw_history_controller.dart';
+import 'package:havartye/responses/withdraw_history_responses.dart';
 import 'package:havartye/screen/profile_page.dart';
+import 'package:intl/intl.dart';
 
 class WithdrawHistory extends StatefulWidget {
   const WithdrawHistory({Key? key}) : super(key: key);
@@ -10,566 +17,113 @@ class WithdrawHistory extends StatefulWidget {
 }
 
 class _WithdrawHistoryState extends State<WithdrawHistory> {
+  List<Datum> withdraw = [];
+
+  _getWithdrawHistory() async {
+    WithdrawHistoryController.requestThenResponsePrint(APITOKEN).then((value) {
+      setState(() {
+        print(value.body);
+        Map<String, dynamic> decoded = json.decode("${value.body}");
+        Iterable listNotification = decoded['data'];
+        print(decoded['data']);
+        withdraw =
+            listNotification.map((model) => Datum.fromJson(model)).toList();
+        print(withdraw);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    _getWithdrawHistory();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    withdraw = withdraw.reversed.toList();
     return WillPopScope(
-
-      onWillPop: () async {
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => ProfilePage()));
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFF0040A1),
-          title: Text("Withdraw History"),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => ProfilePage()));
-            },
-            icon: Icon(Icons.arrow_back_ios),
-          ),
-        ),
-        body: Center(
-          child: Container(
-            //color: Colors.red,
-            width: MediaQuery.of(context).size.width * 0.95,
-            child: ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 20),
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          "Withdraw Pending",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.red),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.087,
-                        width: MediaQuery.of(context).size.width * 0.96,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                10.0) //                 <--- border radius here
-                            )
-                          //contentPadding: EdgeInsets.all(20),
-                        ),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 10, top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                              Column(
-                                //mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Money Withdraw",
-                                    style:
-                                    TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                                  ),
-                                  SizedBox(height: 15,),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "25th Aug",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                      SizedBox(width: 20,),
-                                      Text(
-                                        "10 AM",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20),
-                                child: Text("\$200",
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(
-                        height: 60,
-                      ),
-
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          "Withdraw History",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.087,
-                        width: MediaQuery.of(context).size.width * 0.96,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                10.0) //                 <--- border radius here
-                            )
-                          //contentPadding: EdgeInsets.all(20),
-                        ),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 10, top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                //mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Money Withdraw",
-                                    style:
-                                    TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                                  ),
-                                  SizedBox(height: 15,),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "25th Aug",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                      SizedBox(width: 20,),
-                                      Text(
-                                        "10 AM",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20),
-                                child: Text("\$200",
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.087,
-                        width: MediaQuery.of(context).size.width * 0.96,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                10.0) //                 <--- border radius here
-                            )
-                          //contentPadding: EdgeInsets.all(20),
-                        ),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 10, top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                //mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Money Withdraw",
-                                    style:
-                                    TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                                  ),
-                                  SizedBox(height: 15,),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "25th Aug",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                      SizedBox(width: 20,),
-                                      Text(
-                                        "10 AM",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20),
-                                child: Text("\$200",
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.087,
-                        width: MediaQuery.of(context).size.width * 0.96,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                10.0) //                 <--- border radius here
-                            )
-                          //contentPadding: EdgeInsets.all(20),
-                        ),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 10, top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                //mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Money Withdraw",
-                                    style:
-                                    TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                                  ),
-                                  SizedBox(height: 15,),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "25th Aug",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                      SizedBox(width: 20,),
-                                      Text(
-                                        "10 AM",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20),                                child: Text("\$200",
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.087,
-                        width: MediaQuery.of(context).size.width * 0.96,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                10.0) //                 <--- border radius here
-                            )
-                          //contentPadding: EdgeInsets.all(20),
-                        ),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 10, top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                //mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Money Withdraw",
-                                    style:
-                                    TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                                  ),
-                                  SizedBox(height: 15,),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "25th Aug",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                      SizedBox(width: 20,),
-                                      Text(
-                                        "10 AM",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20),                                child: Text("\$200",
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.087,
-                        width: MediaQuery.of(context).size.width * 0.96,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                10.0) //                 <--- border radius here
-                            )
-                          //contentPadding: EdgeInsets.all(20),
-                        ),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 10, top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                //mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Money Withdraw",
-                                    style:
-                                    TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                                  ),
-                                  SizedBox(height: 15,),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "25th Aug",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                      SizedBox(width: 20,),
-                                      Text(
-                                        "10 AM",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20),                                child: Text("\$200",
-                                style:
-                                TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.087,
-                        width: MediaQuery.of(context).size.width * 0.96,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                10.0) //                 <--- border radius here
-                            )
-                          //contentPadding: EdgeInsets.all(20),
-                        ),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 10, top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                //mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Money Withdraw",
-                                    style:
-                                    TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                                  ),
-                                  SizedBox(height: 15,),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "25th Aug",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                      SizedBox(width: 20,),
-                                      Text(
-                                        "10 AM",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20),                                child: Text("\$200",
-                                style:
-                                TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.087,
-                        width: MediaQuery.of(context).size.width * 0.96,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                10.0) //                 <--- border radius here
-                            )
-                          //contentPadding: EdgeInsets.all(20),
-                        ),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 10, top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                //mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Money Withdraw",
-                                    style:
-                                    TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                                  ),
-                                  SizedBox(height: 15,),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "25th Aug",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                      SizedBox(width: 20,),
-                                      Text(
-                                        "10 AM",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20),                                child: Text("\$200",
-                                style:
-                                TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.087,
-                        width: MediaQuery.of(context).size.width * 0.96,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                10.0) //                 <--- border radius here
-                            )
-                          //contentPadding: EdgeInsets.all(20),
-                        ),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 10, top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                //mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Money Withdraw",
-                                    style:
-                                    TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                                  ),
-                                  SizedBox(height: 15,),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "25th Aug",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                      SizedBox(width: 20,),
-                                      Text(
-                                        "10 AM",
-                                        style:
-                                        TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20),                                child: Text("\$200",
-                                style:
-                                TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+        onWillPop: () async {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => ProfilePage()));
+          return true;
+        },
+        child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Withdraw History'),
             ),
-          ),
-        )
-      ),
-    );
+            body: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: withdraw.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildWithdrawHistoryTile(withdraw[index]);
+                          })),
+                ],
+              ),
+            )));
   }
 }
+
+Widget buildWithdrawHistoryTile(Datum withdraw) => SingleChildScrollView(
+      child: Card(
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(bottom: 6),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Withdraw",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )),
+                    Container(
+                        padding: EdgeInsets.only(bottom: 6),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          withdraw.status,
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )),
+                    // Container(
+                    //     padding: EdgeInsets.only(bottom: 6),
+                    //     alignment: Alignment.centerLeft,
+                    //     child: Text(
+                    //       withdraw.date.toString(),
+                    //       style: TextStyle(
+                    //         fontSize: 17,
+                    //       ),
+                    //     )),
+                    // Container(
+                    //     padding: EdgeInsets.only(bottom: 6),
+                    //     alignment: Alignment.centerLeft,
+                    //      child: Text("Wallet: " + withdraw.date.toString())),
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(DateFormat("yyyy-MM-dd")
+                            .format(withdraw.date))),
+                    // Container(
+                    //     alignment: Alignment.centerLeft,
+                    //     child:
+                    //         Text(DateFormat('kk').format(withdraw.date))),
+                  ],
+                ),
+              ),
+              Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text("+\৳ " + withdraw.amount.toString())),
+            ],
+          ),
+        ),
+      ),
+    );

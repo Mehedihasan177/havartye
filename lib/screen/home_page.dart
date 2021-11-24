@@ -39,7 +39,12 @@ class _HomePageState extends State<HomePage> {
  // List<currentPackage.Data> recentPackages = [];
 
   int  id = 0;
-  String Name = 'Package';
+  String Name = "Package";
+  String AdLimit = "";
+  String type = "";
+  String amount = "";
+  String dailyBonus = "";
+
   _getCurrentPackage() async {
     CurrentPackagesController.requestThenResponsePrint(APITOKEN).then((value) {
 
@@ -50,11 +55,13 @@ class _HomePageState extends State<HomePage> {
         print(value);
         print(value.body);
 
-        currentPackage.Data balanceTraNsferResponse = currentPackage.Data.fromJson(jsonDecode(value.body.toString()));
-        print(balanceTraNsferResponse);
-        print(balanceTraNsferResponse.amount);
-        Name = balanceTraNsferResponse.name;
-        Text(balanceTraNsferResponse.amount);
+        currentPackage.Data current = currentPackage.Data.fromJson(jsonDecode(value.body.toString()));
+        print(current);
+        print(current.amount);
+        Name = current.name;
+        amount = current.amount;
+        dailyBonus = current.dailyBonus;
+        AdLimit = current.adLimit;
 
 
       }else{
@@ -920,12 +927,59 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    padding: EdgeInsets.only(left: 20),
-                    alignment: Alignment.centerLeft,
-                    height: 150,
-                    child: Text(Name),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: SizedBox(
+
+                        height: 150,
+                        width: 275,
+
+                        child: Card(
+                          elevation: 2,
+                          color: Color(0xFF4F45A1),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20, ),
+                            child: Column(
+                              //scrollDirection: Axis.vertical,
+                              children: [
+                                Text(
+                                 Name,
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white
+                                  ),
+                                ),
+                                Text(
+                                  "\$" + amount.toString(),
+                                  style: TextStyle(
+                                      fontSize: 27,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                Text(
+                                  "Daily Bounus \$" + dailyBonus.toString(),
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                Text(
+                                    "Ad Limitation " + AdLimit.toString() + " days ",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

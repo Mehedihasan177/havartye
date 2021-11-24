@@ -26,6 +26,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
   Withdraw value = withdrawitems.first;
   WithdrawTo values = withdrawtoitems.first;
     int passChange = 1;
+    int amount = 0;
   @override
   Widget build(BuildContext context) {
     int passw;
@@ -149,7 +150,8 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                             );
                             passw = int.parse(_textAmount.text);
                             if(passw > OUTSOURCINGWALLET){
-                              AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Insufficient balance');
+                              //amount = OUTSOURCINGWALLET - passw;
+                              AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Success balance');
                             }
                             else if(passw == 0){
                               AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Balance is zero');
