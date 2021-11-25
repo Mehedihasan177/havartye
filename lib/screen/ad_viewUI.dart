@@ -2,10 +2,18 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:havartye/constents/constant.dart';
+import 'package:havartye/controllers/ad_count_controller.dart';
 import 'package:havartye/controllers/ad_view_controller.dart';
+import 'package:havartye/controllers/signIn_controller.dart';
+import 'package:havartye/helper/alertDialogue.dart';
+import 'package:havartye/model/sign_model.dart';
 import 'package:havartye/responses/ad_view_responses.dart';
+import 'package:havartye/responses/signIn_responses.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'bottomnevigation/bottomnevigation.dart';
 
 
 class AdViewUI extends StatefulWidget {
@@ -116,11 +124,62 @@ class _AdViewUIState extends State<AdViewUI> {
   }
 
   void availBobus() {
+    AdCountController.requestThenResponsePrint(APITOKEN).then((value) {
+      setState(() {
+        print(value.statusCode);
+        print(value.body);
+        if(value.statusCode==200){
+          // AdViewResponse adViewResponse = AdViewResponse.fromJson(jsonDecode(value.body));
+          signInAgain();
+        }
 
+
+      });
+    });
   }
 
   void _launchURL() async {
     if (!await launch(link)) throw 'Could not launch $link';
+  }
+
+  Future<void> signInAgain() async {
+    EasyLoading.show(status: 'loading...');
+
+    SignInModel myInfo = new SignInModel(
+        password: USERPASS, name: USERNAME);
+    await SigninController.requestThenResponsePrint(myInfo)
+        .then((value) async {
+      print(value.statusCode);
+      print(value.body);
+      final Map parsed = json.decode(value.body);
+
+      final loginobject = SignInResponse.fromJson(parsed);
+      SIGNINRESPONSE = loginobject;
+      print(loginobject.accessToken);
+
+      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
+      CASHWALLET = SIGNINRESPONSE.data.cash;
+
+
+
+      APITOKEN = loginobject.accessToken;
+      // sharedPreferences.setString("token", loginobject.accessToken);
+      EasyLoading.dismiss();
+      if (value.statusCode == 200) {
+
+        USERNAME = USERNAME;
+        USERPASS = USERPASS;
+        return Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BottomNevigation()),
+        );
+      } else {
+        // return LoginController.requestThenResponsePrint(jsonData);
+        AlertDialogueHelper().showAlertDialog(context, 'Warning',
+            'Please recheck email and password');
+      }
+    });
   }
 
 }

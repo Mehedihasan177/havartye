@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:havartye/constents/constant.dart';
+import 'package:havartye/controllers/profile_controller.dart';
 import 'package:havartye/daily_commissions.dart';
+import 'package:havartye/helper/alertDialogue.dart';
+import 'package:havartye/responses/profile_responses.dart';
 import 'package:havartye/screen/account.dart';
 import 'package:havartye/screen/bottomnevigation/bottomnevigation.dart';
+import 'package:havartye/screen/splash_Screen.dart';
 import 'package:havartye/screen/transaction_histoy.dart';
 import 'package:havartye/screen/withdraw_history.dart';
 
@@ -13,6 +20,61 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+
+  //late String finalToken;
+
+
+  Data profData = new Data(id: 999, name: 'name', email: 'email', phone: 'phone', packageValidity: 'packageValidity', packageName: 'packageName', district: 'district', area: 'area', image: 'image', type: 'type', rank: '999', cash: 999, outsourcing: 999, purchase: 999, investment: 999, shopping: 999, withdrawAmount: 999, dailyBonus: 999, dailyAddLimit: 999, leftUsers: 999, rightUsers: 999, leftCarry: 999, rightCarry: 999, password: '');
+
+
+  _getProfile() async {
+
+
+    ProfileController.requestThenResponsePrint(APITOKEN).then((value) {
+
+      print(value.statusCode);
+      print(value.statusCode);
+      if (value.statusCode == 200) {
+
+
+        setState(() {
+          ProfileController.requestThenResponsePrint(APITOKEN).then((value) {
+
+            print(value.statusCode);
+            print(value.statusCode);
+            if (value.statusCode == 200) {
+              setState(() {
+                print("successfully done");
+                print(value);
+                print(value.body);
+                ProfileResponse profiledata = ProfileResponse.fromJson(jsonDecode(value.body.toString()));
+                profData = profiledata.data;
+                print(profiledata);
+                print(profiledata.data.name);
+                print(profiledata.data.email);
+              });
+
+            }else{
+              AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Please recheck mobile and password');
+            }
+          }
+          );
+        });
+      }else{
+        AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Please recheck mobile and password');
+      }
+    }
+    );
+  }
+
+  @override
+  void initState() {
+    _getProfile();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +95,30 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         body: ListView(
           children: [
+            // Text(profData.name),
+            // Text(profData.email),
+            // Text(profData.phone),
+            // Text(profData.packageValidity),
+            // Text(profData.packageName),
+            // Text(profData.district),
+            // Text(profData.area),
+            // Text(profData.image),
+            // Text(profData.type),
+            // Text(profData.rank),
+            // Text(profData.cash.toString()),
+            // Text(profData.outsourcing.toString()),
+            // Text(profData.purchase.toString()),
+            // Text(profData.investment.toString()),
+            // Text(profData.dailyAddLimit.toString()),
+            // Text(profData.shopping.toString()),
+            // Text(profData.withdrawAmount.toString()),
+            // Text(profData.dailyAddLimit.toString()),
+            // Text(profData.dailyBonus.toString()),
+            // Text(profData.leftUsers.toString()),
+            // Text(profData.rightUsers.toString()),
+            // Text(profData.leftCarry.toString()),
+            // Text(profData.rightCarry.toString()),
+            // Text(profData.password.toString()),
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 30),
               child: Row(
@@ -41,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 160,
                     width: 130,
                     child: Image(
-                      image: AssetImage("assets/profile_image.png"),
+                      image: AssetImage(profData.image),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -53,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            "Hulk Rock",
+                              profData.name,
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold, fontSize: 12),
@@ -72,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   fontWeight: FontWeight.bold,  fontSize: 12),
                             ),
                             Text(
-                              "10112345",
+                              profData.id.toString(),
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,  fontSize: 12),
@@ -87,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             Text("Phone Number: "),
                             Text(
-                              "0171777777777",
+                              profData.phone,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,  fontSize: 12),
@@ -99,12 +185,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         Row(
                           children: [
-                            Text("Sponsor: ",
+                            Text("Area: ",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12),),
                             Text(
-                              "Rubel",
+                              profData.area,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,  fontSize: 12),
@@ -147,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: 15,
                           ),
                           Text(
-                            "\$50",
+                            "\$" + profData.cash.toString(),
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -184,11 +270,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 15,
                         ),
                         Text(
-                          "\$50",
+                          "\$" + profData.withdrawAmount.toString(),
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontSize: 10),
+                              fontSize: 15),
                         ),
                         Text(
                           "Withdraw Amount",
@@ -225,7 +311,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 15,
                         ),
                         Text(
-                          "\$50",
+                          "\$" + profData.dailyBonus.toString(),
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -253,7 +339,7 @@ class _ProfilePageState extends State<ProfilePage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Account()));
+                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Account(ProfData: profData)));
                 },
                 style: ButtonStyle(
                   // foregroundColor:
@@ -357,7 +443,7 @@ class _ProfilePageState extends State<ProfilePage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => TransactionHistory()));
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => TransactionHistory(toShowData: 'all',)));
                 },
                 style: ButtonStyle(
                   // foregroundColor:
@@ -404,58 +490,58 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => BottomNevigation()));
-                },
-                style: ButtonStyle(
-                  // foregroundColor:
-                  // MaterialStateProperty.all<Color>(Color(0xFFFFFFFF)),
-                  backgroundColor:
-                  MaterialStateProperty.all<Color>(Color(0xFFFFFFFF)),
-                  shape:
-                  MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                    ),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 30,
-                      width: 30,
-                      child: Image(
-                        image: AssetImage("assets/currency_change.png"),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(14.0),
-                      child: Text(
-                        'Currency Change',
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.36,
-                    ),
-                    Container(
-                      height: 30,
-                      width: 30,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // SizedBox(height: 20),
+            // SizedBox(
+            //   width: double.infinity,
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => BottomNevigation()));
+            //     },
+            //     style: ButtonStyle(
+            //       // foregroundColor:
+            //       // MaterialStateProperty.all<Color>(Color(0xFFFFFFFF)),
+            //       backgroundColor:
+            //       MaterialStateProperty.all<Color>(Color(0xFFFFFFFF)),
+            //       shape:
+            //       MaterialStateProperty.all<RoundedRectangleBorder>(
+            //         RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(0.0),
+            //         ),
+            //       ),
+            //     ),
+            //     child: Row(
+            //       children: [
+            //         Container(
+            //           height: 30,
+            //           width: 30,
+            //           child: Image(
+            //             image: AssetImage("assets/currency_change.png"),
+            //             fit: BoxFit.fill,
+            //           ),
+            //         ),
+            //         Padding(
+            //           padding: EdgeInsets.all(14.0),
+            //           child: Text(
+            //             'Currency Change',
+            //             style: TextStyle(fontSize: 16, color: Colors.black),
+            //           ),
+            //         ),
+            //         SizedBox(
+            //           width: MediaQuery.of(context).size.width * 0.36,
+            //         ),
+            //         Container(
+            //           height: 30,
+            //           width: 30,
+            //           child: Icon(
+            //             Icons.arrow_forward_ios,
+            //             size: 20,
+            //             color: Colors.black54,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
@@ -513,7 +599,7 @@ class _ProfilePageState extends State<ProfilePage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => BottomNevigation()));
+                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => SplashScreen()));
                 },
                 style: ButtonStyle(
                   // foregroundColor:

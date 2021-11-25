@@ -3,27 +3,34 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:havartye/constents/constant.dart';
 import 'package:havartye/controllers/ad_view_controller.dart';
 import 'package:havartye/controllers/all_packages_controller.dart';
 import 'package:havartye/controllers/buy_package_controller.dart';
 import 'package:havartye/controllers/current_packages_controller.dart'as currentPackage;
 import 'package:havartye/controllers/current_packages_controller.dart';
+import 'package:havartye/controllers/signIn_controller.dart';
 import 'package:havartye/helper/alertDialogue.dart';
 import 'package:havartye/model/buy_package_model.dart';
+import 'package:havartye/model/sign_model.dart';
 import 'package:havartye/responses/ad_view_responses.dart';
 import 'package:havartye/responses/all_packages_responses.dart';
 import 'package:havartye/responses/current_packages_responses.dart' as currentPackage;
+import 'package:havartye/responses/signIn_responses.dart';
 import 'package:havartye/screen/add_member.dart';
 import 'package:havartye/screen/product_packages_page.dart';
 import 'package:havartye/screen/tasks_pages.dart';
+import 'package:havartye/screen/transaction_histoy.dart';
 import 'package:havartye/screen/transfer_money.dart';
 import 'package:havartye/screen/tree.dart';
 import 'package:havartye/screen/upcomming_page.dart';
 import 'package:havartye/screen/withdraw_money.dart';
 import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'ad_viewUI.dart';
+import 'bottomnevigation/bottomnevigation.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,17 +40,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late String finalToken;
 
   List<Datum> allPackages = [];
  // List<currentPackage.Data> recentPackages = [];
 
   int  id = 0;
   String Name = "Package";
-  String AdLimit = "";
-  String type = "";
-  String amount = "";
-  String dailyBonus = "";
+  String AdLimit = "2";
+  String type = "t";
+  String amount = "d";
+  String dailyBonus = "a";
 
   _getCurrentPackage() async {
     CurrentPackagesController.requestThenResponsePrint(APITOKEN).then((value) {
@@ -55,13 +61,13 @@ class _HomePageState extends State<HomePage> {
         print(value);
         print(value.body);
 
-        currentPackage.Data current = currentPackage.Data.fromJson(jsonDecode(value.body.toString()));
+        currentPackage.CurrentPackagesResponse current = currentPackage.CurrentPackagesResponse.fromJson(jsonDecode(value.body.toString()));
         print(current);
-        print(current.amount);
-        Name = current.name;
-        amount = current.amount;
-        dailyBonus = current.dailyBonus;
-        AdLimit = current.adLimit;
+        print(current.data.amount);
+        Name = current.data.name;
+        amount = current.data.amount;
+        dailyBonus = current.data.dailyBonus;
+        AdLimit = current.data.adLimit;
 
 
       }else{
@@ -71,6 +77,10 @@ class _HomePageState extends State<HomePage> {
     );
 
 
+  }
+
+  void _launchURL(String link) async {
+    if (!await launch(link)) throw 'Could not launch $link';
   }
 
   _getAllpackages() async {
@@ -460,7 +470,14 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           children: [
                             InkWell(
-                              onTap: () {}, // Handle your callback.
+                              onTap: () {
+
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HotelBooking()));
+
+                              }, // Handle your callback.
 
                               child: Ink(
                                 height: 45,
@@ -745,7 +762,9 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           children: [
                             InkWell(
-                              onTap: () {}, // Handle your callback.
+                              onTap: () {
+                                Navigator.push(context,MaterialPageRoute(builder: (context) => TransactionHistory(toShowData: 'income',)));
+                              }, // Handle your callback.
 
                               child: Ink(
                                 height: 40,
@@ -816,7 +835,9 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           children: [
                             InkWell(
-                              onTap: () {}, // Handle your callback.
+                              onTap: () {
+                                _launchURL('https://youtu.be/B4fy5iHSYO0');
+                              }, // Handle your callback.
 
                               child: Ink(
                                 height: 40,
@@ -834,7 +855,7 @@ class _HomePageState extends State<HomePage> {
                               height: 15,
                             ),
                             Text(
-                              "Received",
+                              "About Us",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -846,7 +867,14 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           children: [
                             InkWell(
-                              onTap: () {}, // Handle your callback.
+                              onTap: () {
+
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TreePage(url: 'https://www.shop.havartye.com',)));
+
+                              }, // Handle your callback.
 
                               child: Ink(
                                 height: 40,
@@ -1159,12 +1187,15 @@ class _HomePageState extends State<HomePage> {
                                     print("token of user\n");
                                     print("token at call mehedi hasan who are you: " + APITOKEN);
 
-                                    BuyPackageController.requestThenResponsePrint(APITOKEN, id).then((value) {
+                                    BuyPackageController.requestThenResponsePrint(APITOKEN, allPackag.id).then((value) {
 
                                       print(value.statusCode);
                                       print(value.body);
                                       if (value.statusCode == 200) {
                                         print("successfully done");
+
+                                        signInAgain(context);
+
                                       }
 
                                       else if(value.statusCode == 404){
@@ -1203,6 +1234,46 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       );
+}
+
+Future<void> signInAgain(BuildContext context) async {
+  EasyLoading.show(status: 'loading...');
+
+  SignInModel myInfo = new SignInModel(
+      password: USERPASS, name: USERNAME);
+  await SigninController.requestThenResponsePrint(myInfo)
+      .then((value) async {
+    print(value.statusCode);
+    print(value.body);
+    final Map parsed = json.decode(value.body);
+
+    final loginobject = SignInResponse.fromJson(parsed);
+    SIGNINRESPONSE = loginobject;
+    print(loginobject.accessToken);
+
+    OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
+    CASHWALLET = SIGNINRESPONSE.data.cash;
+
+
+
+    APITOKEN = loginobject.accessToken;
+    // sharedPreferences.setString("token", loginobject.accessToken);
+    EasyLoading.dismiss();
+    if (value.statusCode == 200) {
+
+      USERNAME = USERNAME;
+      USERPASS = USERPASS;
+      return Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BottomNevigation()),
+      );
+    } else {
+      // return LoginController.requestThenResponsePrint(jsonData);
+      AlertDialogueHelper().showAlertDialog(context, 'Warning',
+          'Please recheck email and password');
+    }
+  });
 }
 
 Widget buildCurrentPackagesTile(currentPackage.Data currentPackageResponses) =>

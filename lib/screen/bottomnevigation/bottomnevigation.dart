@@ -31,7 +31,7 @@ class _BottomNevigationState extends State<BottomNevigation> {
       case 0:
         return HomePage();
       case 1:
-        return TreePage(url: 'https://www.admin.havartye.com/tree/$USERNAME',);
+        return TreePage(url: 'https://admin.havartye.com/tree/$USERNAME',);
       case 2:
         return ProfilePage();
 

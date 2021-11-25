@@ -11,87 +11,131 @@ String profileResponseToJson(ProfileResponse data) => json.encode(data.toJson())
 class ProfileResponse {
   ProfileResponse({
     required this.success,
-    required this.profileResponses,
+    required this.data,
     required this.msg,
   });
 
   bool success;
-  ProfileResponses profileResponses;
+  Data data;
   String msg;
 
   factory ProfileResponse.fromJson(Map<String, dynamic> json) => ProfileResponse(
     success: json["success"],
-    profileResponses: ProfileResponses.fromJson(json["ProfileResponses"]),
+    data: Data.fromJson(json["data"]),
     msg: json["msg"],
   );
 
   Map<String, dynamic> toJson() => {
     "success": success,
-    "ProfileResponses": profileResponses.toJson(),
+    "data": data.toJson(),
     "msg": msg,
   };
 }
 
-class ProfileResponses {
-  ProfileResponses({
+class Data {
+  Data({
+    required this.id,
     required this.name,
     required this.email,
     required this.phone,
+    required this.packageValidity,
+    required this.packageName,
     required this.district,
-    this.area,
+    required this.area,
     required this.image,
     required this.type,
     required this.rank,
-    required this.totalEarn,
+    required this.cash,
+    required this.outsourcing,
+    required this.purchase,
+    required this.investment,
+    required this.shopping,
     required this.withdrawAmount,
-    required this.dailyCommission,
-    required this.investAmount,
+    required this.dailyBonus,
     required this.dailyAddLimit,
+    required this.leftUsers,
+    required this.rightUsers,
+    required this.leftCarry,
+    required this.rightCarry,
+    required this.password,
   });
 
+  int id;
   String name;
   String email;
   String phone;
+  String packageValidity;
+  String packageName;
   String district;
-  dynamic area;
+  String area;
   String image;
   String type;
   String rank;
-  int totalEarn;
+  int cash;
+  int outsourcing;
+  dynamic purchase;
+  int investment;
+  int shopping;
   int withdrawAmount;
-  int dailyCommission;
-  int investAmount;
+  int dailyBonus;
   int dailyAddLimit;
+  int leftUsers;
+  int rightUsers;
+  int leftCarry;
+  int rightCarry;
+  String password;
 
-  factory ProfileResponses.fromJson(Map<String, dynamic> json) => ProfileResponses(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+    id: json["id"],
     name: json["name"],
     email: json["email"],
     phone: json["phone"],
+    packageValidity: (json["package_validity"]),
+    packageName: json["package_name"],
     district: json["district"],
     area: json["area"],
     image: json["image"],
     type: json["type"],
     rank: json["rank"],
-    totalEarn: json["total_earn"],
+    cash: json["cash"],
+    outsourcing: json["outsourcing"],
+    purchase: json["purchase"],
+    investment: json["investment"],
+    shopping: json["shopping"],
     withdrawAmount: json["withdraw_amount"],
-    dailyCommission: json["daily_commission"],
-    investAmount: json["invest_amount"],
+    dailyBonus: json["daily_bonus"],
     dailyAddLimit: json["daily_add_limit"],
+    leftUsers: json["left_users"],
+    rightUsers: json["right_users"],
+    leftCarry: json["left_carry"],
+    rightCarry: json["right_carry"],
+    password: json["password"],
   );
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "name": name,
     "email": email,
     "phone": phone,
+    "package_validity": packageValidity,
+    "package_name": packageName,
     "district": district,
     "area": area,
     "image": image,
     "type": type,
     "rank": rank,
-    "total_earn": totalEarn,
+    "cash": cash,
+    "outsourcing": outsourcing,
+    "purchase": purchase,
+    "investment": investment,
+    "shopping": shopping,
     "withdraw_amount": withdrawAmount,
-    "daily_commission": dailyCommission,
-    "invest_amount": investAmount,
+    "daily_bonus": dailyBonus,
     "daily_add_limit": dailyAddLimit,
+    "left_users": leftUsers,
+    "right_users": rightUsers,
+    "left_carry": leftCarry,
+    "right_carry": rightCarry,
+    "password": password,
   };
 }

@@ -1,11 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:havartye/constents/constant.dart';
 import 'package:havartye/controllers/balance_transfer_controller.dart';
+import 'package:havartye/controllers/signIn_controller.dart';
 import 'package:havartye/controllers/transaction_controller.dart';
 import 'package:havartye/helper/alertDialogue.dart';
+import 'package:havartye/model/sign_model.dart';
 import 'package:havartye/responses/balance_transfer_responses.dart';
+import 'package:havartye/responses/signIn_responses.dart';
 import 'package:havartye/responses/transaction_responses.dart';
 import 'package:havartye/screen/bottomnevigation/bottomnevigation.dart';
 import 'package:havartye/screen/dropdownforTransferMoneyPage.dart';
@@ -254,6 +258,8 @@ class _TransferMoneyState extends State<TransferMoney> {
                             print(withdraw);
                             print(withdraw.amount);
 
+                            signInAgain(context);
+
 
                           }else{
                             AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Please recheck mobile and password');
@@ -281,4 +287,47 @@ class _TransferMoneyState extends State<TransferMoney> {
       ),
     );
   }
+
+
+  Future<void> signInAgain(BuildContext context) async {
+    EasyLoading.show(status: 'loading...');
+
+    SignInModel myInfo = new SignInModel(
+        password: USERPASS, name: USERNAME);
+    await SigninController.requestThenResponsePrint(myInfo)
+        .then((value) async {
+      print(value.statusCode);
+      print(value.body);
+      final Map parsed = json.decode(value.body);
+
+      final loginobject = SignInResponse.fromJson(parsed);
+      SIGNINRESPONSE = loginobject;
+      print(loginobject.accessToken);
+
+      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
+      CASHWALLET = SIGNINRESPONSE.data.cash;
+
+
+
+      APITOKEN = loginobject.accessToken;
+      // sharedPreferences.setString("token", loginobject.accessToken);
+      EasyLoading.dismiss();
+      if (value.statusCode == 200) {
+
+        USERNAME = USERNAME;
+        USERPASS = USERPASS;
+        return Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BottomNevigation()),
+        );
+      } else {
+        // return LoginController.requestThenResponsePrint(jsonData);
+        AlertDialogueHelper().showAlertDialog(context, 'Warning',
+            'Please recheck email and password');
+      }
+    });
+  }
+
+
 }

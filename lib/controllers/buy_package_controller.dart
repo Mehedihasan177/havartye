@@ -9,16 +9,19 @@ class BuyPackageController {
     // This is a a callof global veriable
     String domain = apiDomainRoot;
     // This is a url for the request
-    var url = '$domain/api/package-buy=$id';
+    var url = '$domain/api/package-buy';
 
 
 
     // Here we are getting the response
     var response = await http.post(Uri.parse(url),
         headers: {
-          // "Accept": "application/json",
+          "Accept": "application/json",
           'Authorization': 'Bearer $usertoken',
-        }
+        },
+      body: {
+        'package_id':'$id'
+      }
     );
 
     // After geting the response we need to split all the json formatted data. Otherwise

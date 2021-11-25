@@ -8,7 +8,7 @@ class PlacementPosition {
 }
 
 final List<PlacementPosition> placementpositon = <PlacementPosition>[
-  PlacementPosition('Right',2),
   PlacementPosition('Left',1),
+  PlacementPosition('Right',2),
 
 ];

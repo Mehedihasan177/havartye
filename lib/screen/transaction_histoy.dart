@@ -8,7 +8,8 @@ import 'package:havartye/screen/profile_page.dart';
 import 'package:intl/intl.dart';
 
 class TransactionHistory extends StatefulWidget {
-  const TransactionHistory({Key? key}) : super(key: key);
+  final String toShowData;
+  const TransactionHistory({Key? key, required this.toShowData}) : super(key: key);
 
   @override
   _TransactionHistoryState createState() => _TransactionHistoryState();
@@ -54,6 +55,14 @@ class _TransactionHistoryState extends State<TransactionHistory> {
               child: ListView.builder(
                   itemCount: transaction.length,
                   itemBuilder: (BuildContext context, int index) {
+                    if(widget.toShowData=='income'){
+                      if((transaction[index].type.toLowerCase()=='referral')||(transaction[index].type.toLowerCase()=='matching')){
+                        return buildTransactionTile(transaction[index]);
+                      }else{
+                        return Container();
+                      }
+
+                    }else
                     return buildTransactionTile(transaction[index]);
                   })),
         ],

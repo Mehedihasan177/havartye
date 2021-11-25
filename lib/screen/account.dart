@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:havartye/responses/profile_responses.dart';
 import 'package:havartye/screen/bottomnevigation/bottomnevigation.dart';
 import 'package:havartye/screen/profile_page.dart';
 
 class Account extends StatefulWidget {
-  const Account({Key? key}) : super(key: key);
+  final Data ProfData;
+  const Account({Key? key, required  this.ProfData}) : super(key: key);
 
   @override
   _AccountState createState() => _AccountState();
@@ -20,7 +22,7 @@ class _AccountState extends State<Account> {
     return WillPopScope(
 
       onWillPop: () async {
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => BottomNevigation()));
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => ProfilePage()));
         return true;
       },
       child: Scaffold(
@@ -86,121 +88,23 @@ class _AccountState extends State<Account> {
                         SizedBox(
                           width: 20,
                         ),
-                        TextField(
-                          controller: _textEmail,
-                          enabled: false,
-                          keyboardType: TextInputType.emailAddress,
-                          style: TextStyle(color: Colors.black),
-                          //scrollPadding: EdgeInsets.all(10),
-                          decoration: InputDecoration(
-                            //contentPadding: EdgeInsets.all(20),
-                            hintText: "Enter your username",
-                          ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(widget.ProfData.name)),
+                        ),
+                        const Divider(
+                          thickness: 1, // thickness of the line
+                          indent: 5, // empty space to the leading edge of divider.
+                          endIndent: 5, // empty space to the trailing edge of the divider.
+                          color: Colors.black, // The color to use when painting the line.
+                          height: 5, // The divider's height extent.
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  //fullname
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 33),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.person,
-                              size: 18,
-                              color: Colors.black,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              "Full Name",
-                              style: TextStyle(fontSize: 17),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        width: MediaQuery.of(context).size.width * 0.80,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: TextField(
-                          controller: _textPassword,
-                          obscureText: true,
-                          enabled: false,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(color: Colors.black),
-                          //scrollPadding: EdgeInsets.all(10),
-                          decoration: InputDecoration(
-                            //contentPadding: EdgeInsets.all(20),
-                            hintText: "Enter your full name",
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  //NID
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 33),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 17,
-                              width: 17,
-                              child: Image(image: AssetImage("assets/nid.png"),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              "NID",
-                              style: TextStyle(fontSize: 17),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        width: MediaQuery.of(context).size.width * 0.80,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: TextField(
-                          controller: _textPassword,
-                          obscureText: true,
-                          enabled: false,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(color: Colors.black),
-                          //scrollPadding: EdgeInsets.all(10),
-                          decoration: InputDecoration(
-                            //contentPadding: EdgeInsets.all(20),
-                            hintText: "Enter your NID number",
 
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -235,18 +139,23 @@ class _AccountState extends State<Account> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        child: TextField(
-                          controller: _textPassword,
-                          obscureText: true,
-                          enabled: false,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(color: Colors.black),
-                          //scrollPadding: EdgeInsets.all(10),
-                          decoration: InputDecoration(
-                            //contentPadding: EdgeInsets.all(20),
-                            hintText: "Enter your email",
-                          ),
-                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(widget.ProfData.email)),
+                            ),
+                            const Divider(
+                              thickness: 1, // thickness of the line
+                              indent: 5, // empty space to the leading edge of divider.
+                              endIndent: 5, // empty space to the trailing edge of the divider.
+                              color: Colors.black, // The color to use when painting the line.
+                              height: 5, // The divider's height extent.
+                            ),
+                          ],
+                        )
                       ),
                     ],
                   ),
@@ -287,232 +196,30 @@ class _AccountState extends State<Account> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        child: TextField(
-                          controller: _textPassword,
-                          obscureText: true,
-                          enabled: false,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(color: Colors.black),
-                          //scrollPadding: EdgeInsets.all(10),
-                          decoration: InputDecoration(
-                            //contentPadding: EdgeInsets.all(20),
-                            hintText: "Enter your phone number",
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-
-                  // //Sponsor
-                  // Column(
-                  //   children: [
-                  //     Padding(
-                  //       padding: const EdgeInsets.only(left: 33),
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.start,
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           Container(
-                  //             height: 17,
-                  //             width: 17,
-                  //             child: Image(image: AssetImage("assets/sponsor.png"),
-                  //               fit: BoxFit.cover,
-                  //             ),
-                  //           ),
-                  //           SizedBox(
-                  //             width: 20,
-                  //           ),
-                  //           Text(
-                  //             "Sponsor",
-                  //             style: TextStyle(fontSize: 17),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     Container(
-                  //       height: MediaQuery.of(context).size.height * 0.08,
-                  //       width: MediaQuery.of(context).size.width * 0.80,
-                  //       decoration: BoxDecoration(
-                  //         color: Colors.white,
-                  //         borderRadius: BorderRadius.circular(18),
-                  //       ),
-                  //       child: TextField(
-                  //         controller: _textPassword,
-                  //         obscureText: true,
-                  //         keyboardType: TextInputType.text,
-                  //         style: TextStyle(color: Colors.black),
-                  //         //scrollPadding: EdgeInsets.all(10),
-                  //         decoration: InputDecoration(
-                  //           //contentPadding: EdgeInsets.all(20),
-                  //           hintText: "Enter your sponsor",
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-
-                  //Placement ID
-                  // Column(
-                  //   children: [
-                  //     Padding(
-                  //       padding: const EdgeInsets.only(left: 33),
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.start,
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           Container(
-                  //             height: 17,
-                  //             width: 17,
-                  //             child: Image(image: AssetImage("assets/placement_id.png"),
-                  //               fit: BoxFit.cover,
-                  //             ),
-                  //           ),
-                  //           SizedBox(
-                  //             width: 20,
-                  //           ),
-                  //           Text(
-                  //             "Placement ID",
-                  //             style: TextStyle(fontSize: 17),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     Container(
-                  //       height: MediaQuery.of(context).size.height * 0.08,
-                  //       width: MediaQuery.of(context).size.width * 0.80,
-                  //       decoration: BoxDecoration(
-                  //         color: Colors.white,
-                  //         borderRadius: BorderRadius.circular(18),
-                  //       ),
-                  //       child: TextField(
-                  //         controller: _textPassword,
-                  //         obscureText: true,
-                  //         keyboardType: TextInputType.text,
-                  //         style: TextStyle(color: Colors.black),
-                  //         //scrollPadding: EdgeInsets.all(10),
-                  //         decoration: InputDecoration(
-                  //           //contentPadding: EdgeInsets.all(20),
-                  //           hintText: "Enter your placement id",
-                  //
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-
-                  //Placement position
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 33),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Column(
                           children: [
-                            Container(
-                              height: 17,
-                              width: 17,
-                              child: Image(image: AssetImage("assets/placement_id.png"),
-                                fit: BoxFit.cover,
-                              ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(widget.ProfData.phone)),
                             ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              "Placement Position",
-                              style: TextStyle(fontSize: 17),
+                            const Divider(
+                              thickness: 1, // thickness of the line
+                              indent: 5, // empty space to the leading edge of divider.
+                              endIndent: 5, // empty space to the trailing edge of the divider.
+                              color: Colors.black, // The color to use when painting the line.
+                              height: 5, // The divider's height extent.
                             ),
                           ],
-                        ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        width: MediaQuery.of(context).size.width * 0.80,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: TextField(
-                          controller: _textPassword,
-                          obscureText: true,
-                          enabled: false,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(color: Colors.black),
-                          //scrollPadding: EdgeInsets.all(10),
-                          decoration: InputDecoration(
-                            //contentPadding: EdgeInsets.all(20),
-                            hintText: "Enter your password",
-                          ),
-                        ),
+                        )
                       ),
                     ],
                   ),
+
                   SizedBox(
                     height: 10,
                   ),
-
-                  // //Country
-                  // Column(
-                  //   children: [
-                  //     Padding(
-                  //       padding: const EdgeInsets.only(left: 33),
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.start,
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           Container(
-                  //             height: 17,
-                  //             width: 17,
-                  //             child: Image(image: AssetImage("assets/global.png"),
-                  //               fit: BoxFit.cover,
-                  //             ),
-                  //           ),
-                  //           SizedBox(
-                  //             width: 20,
-                  //           ),
-                  //           Text(
-                  //             "Country",
-                  //             style: TextStyle(fontSize: 17),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     Container(
-                  //       height: MediaQuery.of(context).size.height * 0.08,
-                  //       width: MediaQuery.of(context).size.width * 0.80,
-                  //       decoration: BoxDecoration(
-                  //         color: Colors.white,
-                  //         borderRadius: BorderRadius.circular(18),
-                  //       ),
-                  //       child: TextField(
-                  //         controller: _textPassword,
-                  //         obscureText: true,
-                  //         keyboardType: TextInputType.text,
-                  //         style: TextStyle(color: Colors.black),
-                  //         //scrollPadding: EdgeInsets.all(10),
-                  //         decoration: InputDecoration(
-                  //           //contentPadding: EdgeInsets.all(20),
-                  //           hintText: "Enter your Country",
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-
-                  //District
                   Column(
                     children: [
                       Padding(
@@ -539,31 +246,35 @@ class _AccountState extends State<Account> {
                         ),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        width: MediaQuery.of(context).size.width * 0.80,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: TextField(
-                          controller: _textPassword,
-                          obscureText: true,
-                          enabled: false,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(color: Colors.black),
-                          //scrollPadding: EdgeInsets.all(10),
-                          decoration: InputDecoration(
-                            //contentPadding: EdgeInsets.all(20),
-                            hintText: "Enter your district",
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          width: MediaQuery.of(context).size.width * 0.80,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(18),
                           ),
-                        ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(widget.ProfData.district)),
+                              ),
+                              const Divider(
+                                thickness: 1, // thickness of the line
+                                indent: 5, // empty space to the leading edge of divider.
+                                endIndent: 5, // empty space to the trailing edge of the divider.
+                                color: Colors.black, // The color to use when painting the line.
+                                height: 5, // The divider's height extent.
+                              ),
+                            ],
+                          )
                       ),
                     ],
                   ),
                   SizedBox(
                     height: 10,
                   ),
-
                   //Area
                   Column(
                     children: [
@@ -591,24 +302,29 @@ class _AccountState extends State<Account> {
                         ),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        width: MediaQuery.of(context).size.width * 0.80,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: TextField(
-                          controller: _textPassword,
-                          obscureText: true,
-                          enabled: false,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(color: Colors.black),
-                          //scrollPadding: EdgeInsets.all(10),
-                          decoration: InputDecoration(
-                            //contentPadding: EdgeInsets.all(20),
-                            hintText: "Enter your area",
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          width: MediaQuery.of(context).size.width * 0.80,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(18),
                           ),
-                        ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(widget.ProfData.area)),
+                              ),
+                              const Divider(
+                                thickness: 1, // thickness of the line
+                                indent: 5, // empty space to the leading edge of divider.
+                                endIndent: 5, // empty space to the trailing edge of the divider.
+                                color: Colors.black, // The color to use when painting the line.
+                                height: 5, // The divider's height extent.
+                              ),
+                            ],
+                          )
                       ),
                     ],
                   ),
@@ -616,79 +332,6 @@ class _AccountState extends State<Account> {
                     height: 10,
                   ),
 
-                  // //Gender
-                  // Column(
-                  //   children: [
-                  //     Padding(
-                  //       padding: const EdgeInsets.only(left: 33),
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.start,
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           Container(
-                  //             height: 17,
-                  //             width: 17,
-                  //             child: Image(image: AssetImage("assets/gender.png"),
-                  //               fit: BoxFit.cover,
-                  //             ),
-                  //           ),
-                  //           SizedBox(
-                  //             width: 20,
-                  //           ),
-                  //           Text(
-                  //             "Gender",
-                  //             style: TextStyle(fontSize: 17),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     SizedBox(height: 10,),
-                  //     Row(
-                  //       children: [
-                  //         Padding(
-                  //           padding: const EdgeInsets.only(left: 20),
-                  //           child: Row(
-                  //             children: [
-                  //               Checkbox(
-                  //                 value: checkbox,
-                  //                 shape: CircleBorder(),
-                  //                 onChanged: (bool? value) {
-                  //                   setState(() {
-                  //                     checkbox = value!;
-                  //                   });
-                  //                 },
-                  //               ),
-                  //               // SizedBox(width: 20,),
-                  //               Text("Male", style: TextStyle(fontSize: 15),),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //         Padding(
-                  //           padding: const EdgeInsets.only(left: 20),
-                  //           child: Row(
-                  //             children: [
-                  //               Checkbox(
-                  //                 value: checkbox,
-                  //                 shape: CircleBorder(),
-                  //                 onChanged: (bool? value) {
-                  //                   setState(() {
-                  //                     checkbox = value!;
-                  //                   });
-                  //                 },
-                  //               ),
-                  //               // SizedBox(width: 10,),
-                  //               Text("Female", style: TextStyle(fontSize: 15),),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ],
-                  // ),
-                  //
-                  // SizedBox(height: 15,),
-
-                  //Password
                   Column(
                     children: [
                       Padding(
@@ -700,7 +343,7 @@ class _AccountState extends State<Account> {
                             Container(
                               height: 17,
                               width: 17,
-                              child: Image(image: AssetImage("assets/password.png"),
+                              child: Image(image: AssetImage("assets/packages1.png"),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -708,7 +351,7 @@ class _AccountState extends State<Account> {
                               width: 20,
                             ),
                             Text(
-                              "Password",
+                              "Package Name",
                               style: TextStyle(fontSize: 17),
                             ),
                           ],
@@ -721,23 +364,200 @@ class _AccountState extends State<Account> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        child: TextField(
-                          controller: _textPassword,
-                          obscureText: true,
-                          enabled: false,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(color: Colors.black),
-                          //scrollPadding: EdgeInsets.all(10),
-                          decoration: InputDecoration(
-                            //contentPadding: EdgeInsets.all(20),
-                            hintText: "Enter your password",
-
-                          ),
-                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(widget.ProfData.packageName)),
+                            ),
+                            const Divider(
+                              thickness: 1, // thickness of the line
+                              indent: 5, // empty space to the leading edge of divider.
+                              endIndent: 5, // empty space to the trailing edge of the divider.
+                              color: Colors.black, // The color to use when painting the line.
+                              height: 5, // The divider's height extent.
+                            ),
+                          ],
+                        )
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 33),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 17,
+                              width: 17,
+                              child: Image(image: AssetImage("assets/boxes1.png"),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              "Type",
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        width: MediaQuery.of(context).size.width * 0.80,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(widget.ProfData.type)),
+                            ),
+                            const Divider(
+                              thickness: 1, // thickness of the line
+                              indent: 5, // empty space to the leading edge of divider.
+                              endIndent: 5, // empty space to the trailing edge of the divider.
+                              color: Colors.black, // The color to use when painting the line.
+                              height: 5, // The divider's height extent.
+                            ),
+                          ],
+                        )
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
 
+
+
+
+
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 33),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 17,
+                              width: 17,
+                              child: Image(image: AssetImage("assets/ranking1.png"),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              "Rank",
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        width: MediaQuery.of(context).size.width * 0.80,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(widget.ProfData.rank)),
+                            ),
+                            const Divider(
+                              thickness: 1, // thickness of the line
+                              indent: 5, // empty space to the leading edge of divider.
+                              endIndent: 5, // empty space to the trailing edge of the divider.
+                              color: Colors.black, // The color to use when painting the line.
+                              height: 5, // The divider's height extent.
+                            ),
+                          ],
+                        )
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 33),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 17,
+                              width: 17,
+                              child: Icon(
+                                Icons.app_blocking,
+                                color: Colors.black.withOpacity(0.4),
+                              )
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              "Password",
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          width: MediaQuery.of(context).size.width * 0.80,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(widget.ProfData.password)),
+                              ),
+                              const Divider(
+                                thickness: 1, // thickness of the line
+                                indent: 5, // empty space to the leading edge of divider.
+                                endIndent: 5, // empty space to the trailing edge of the divider.
+                                color: Colors.black, // The color to use when painting the line.
+                                height: 5, // The divider's height extent.
+                              ),
+                            ],
+                          )
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   //Transactin Password
                   // Column(
                   //   children: [

@@ -15,6 +15,8 @@ import 'package:havartye/screen/dropdown_button_placement_position.dart';
 import 'package:havartye/responses/district_responses.dart' as dist;
 import 'package:havartye/responses/division_responses.dart' as div;
 
+import 'add_member_successfull.dart';
+
 class AddMember extends StatefulWidget {
   const AddMember({Key? key}) : super(key: key);
 
@@ -873,6 +875,12 @@ class _AddMemberState extends State<AddMember> {
                           print(value.body);
                           if (value.statusCode == 200) {
                             print("successfully done");
+
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegistrationSuccessfull()));
+
                           } else {
                             AlertDialogueHelper().showAlertDialog(
                                 context,

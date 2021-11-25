@@ -37,7 +37,7 @@ class RegistrationSuccessfull extends StatelessWidget {
                       width: 20,
                     ),
                     Text(
-                      "Registration Successful",
+                      "Member Added Successfully",
                       style: TextStyle(
                           fontSize: 28,
                           color: Color(0xFF0040A1),
@@ -74,19 +74,11 @@ class RegistrationSuccessfull extends StatelessWidget {
             ),
             Center(
               child: Text(
-                "Registration has been successfull",
+                "New Member registration has been successful",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF0040A1)),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: Text(
-                "On 26th Aug, 2021 at 9:30 AM",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF0040A1)),
-              ),
-            ),
+
           ],
         ),
       ),

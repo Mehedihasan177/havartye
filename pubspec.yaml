@@ -42,6 +42,7 @@ dependencies:
   timeago:
   webview_flutter: ^2.3.1
   intl: ^0.17.0
+  flutter_webview_plugin: ^0.4.0
 
 dev_dependencies:
   flutter_test:
@@ -118,6 +119,9 @@ flutter:
     - assets/purchase_package.png
     - assets/add_member.png
     - assets/havartye.png
+    - assets/boxes1.png
+    - assets/ranking1.png
+    - assets/packages1.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:havartye/screen/bottomnevigation/bottomnevigation.dart';
 import 'package:havartye/screen/home_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -18,7 +19,8 @@ class _TreePageState extends State<TreePage> {
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    print(widget.url);
   }
 
 
@@ -41,11 +43,21 @@ class _TreePageState extends State<TreePage> {
             icon: Icon(Icons.arrow_back_ios),
           ),
         ),
-        body:  WebView(
-    initialUrl: widget.url,
-    javascriptMode: JavascriptMode.unrestricted,
-
-    )
+        body:  new WebviewScaffold(
+          url: widget.url,
+          appBar: new AppBar(
+            title: const Text('Widget Tree'),
+          ),
+          withZoom: true,
+          withLocalStorage: true,
+          hidden: true,
+          initialChild: Container(
+            color: Colors.redAccent,
+            child: const Center(
+              child: Text('Waiting.....'),
+            ),
+          ),
+        ),
 
     )
       );
