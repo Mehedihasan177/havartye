@@ -2,6 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:havartye/constents/constant.dart';
+import 'package:havartye/screen/add_member.dart';
 import 'package:havartye/screen/home_page.dart';
 import 'package:havartye/screen/profile_page.dart';
 import 'package:havartye/screen/tree.dart';
@@ -31,7 +32,7 @@ class _BottomNevigationState extends State<BottomNevigation> {
       case 0:
         return HomePage();
       case 1:
-        return TreePage(url: 'https://admin.havartye.com/tree/$USERNAME',);
+        return AddMember();
       case 2:
         return ProfilePage();
 
@@ -56,13 +57,13 @@ class _BottomNevigationState extends State<BottomNevigation> {
 
         ),
         BottomNavyBarItem(
-            title: Text('Tree', style: TextStyle(color: Colors.black),),
-            icon: Container(
-                height: 28,
-                width: 28,
-                child: Image.asset("assets/tree.png")),
-            textAlign: TextAlign.center,
-            activeColor: Colors.blue,
+          title: Text('Add Member', style: TextStyle(color: Colors.black),),
+          icon: Container(
+              height: 28,
+              width: 28,
+              child: Image.asset("assets/add_member.png")),
+          textAlign: TextAlign.center,
+          activeColor: Colors.blue,
 
         ),
         BottomNavyBarItem(

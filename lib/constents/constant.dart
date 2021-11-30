@@ -6,6 +6,10 @@ String APITOKEN = "";
 String USERNAME = "";
 String USERPASS = "";
   int OUTSOURCINGWALLET = 0;
-int CASHWALLET = 0;
+
+double CASHWALLET = 0;
+int USERID = 0;
 late SignInResponse SIGNINRESPONSE;
+
+
 

@@ -22,7 +22,7 @@ class BalanceTraNsferResponse {
   factory BalanceTraNsferResponse.fromJson(Map<String, dynamic> json) => BalanceTraNsferResponse(
     success: json["success"],
     msg: json["msg"],
-    amount: json["amount"],
+    amount: json["amount"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

@@ -6,6 +6,7 @@ import 'package:havartye/constents/constant.dart';
 import 'package:havartye/controllers/transaction_controller.dart';
 import 'package:havartye/controllers/withdraw_history_controller.dart';
 import 'package:havartye/responses/withdraw_history_responses.dart';
+import 'package:havartye/screen/bottomnevigation/bottomnevigation.dart';
 import 'package:havartye/screen/profile_page.dart';
 import 'package:intl/intl.dart';
 
@@ -45,7 +46,7 @@ class _WithdrawHistoryState extends State<WithdrawHistory> {
     return WillPopScope(
         onWillPop: () async {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              context, MaterialPageRoute(builder: (context) => BottomNevigation()));
           return true;
         },
         child: Scaffold(

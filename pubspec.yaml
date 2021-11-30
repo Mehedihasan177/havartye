@@ -43,6 +43,8 @@ dependencies:
   webview_flutter: ^2.3.1
   intl: ^0.17.0
   flutter_webview_plugin: ^0.4.0
+  flutter_inappwebview: ^5.3.2
+  flutter_custom_tabs: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -122,6 +124,14 @@ flutter:
     - assets/boxes1.png
     - assets/ranking1.png
     - assets/packages1.png
+    - assets/company.png
+    - assets/prepaid.png
+    - assets/pop-up1.png
+    - assets/pop-up.png
+    - assets/cash-flow.png
+    - assets/bkash.png
+    - assets/nagad_image.png
+    - assets/rocket_logo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

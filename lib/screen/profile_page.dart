@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:havartye/constents/constant.dart';
 import 'package:havartye/controllers/profile_controller.dart';
 import 'package:havartye/daily_commissions.dart';
@@ -10,6 +11,7 @@ import 'package:havartye/screen/account.dart';
 import 'package:havartye/screen/bottomnevigation/bottomnevigation.dart';
 import 'package:havartye/screen/splash_Screen.dart';
 import 'package:havartye/screen/transaction_histoy.dart';
+import 'package:havartye/screen/tree.dart';
 import 'package:havartye/screen/withdraw_history.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -22,10 +24,15 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
 
 
-  //late String finalToken;
 
 
-  Data profData = new Data(id: 999, name: 'name', email: 'email', phone: 'phone', packageValidity: 'packageValidity', packageName: 'packageName', district: 'district', area: 'area', image: 'image', type: 'type', rank: '999', cash: 999, outsourcing: 999, purchase: 999, investment: 999, shopping: 999, withdrawAmount: 999, dailyBonus: 999, dailyAddLimit: 999, leftUsers: 999, rightUsers: 999, leftCarry: 999, rightCarry: 999, password: '');
+
+  Data profData = new Data( name: 'name', email: 'email', phone: 'phone',
+     district: 'district', area: 'area',
+      image: 'image', type: 'type', rank: '999',
+      withdrawAmount: "999",
+      dailyAddLimit: "999", investAmount: "999", dailyCommission: "999", totalEarn: "999"
+  );
 
 
   _getProfile() async {
@@ -150,15 +157,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         Row(
                           children: [
-
+                            Text("Email: "),
                             Text(
-                              "Profile ID: ",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,  fontSize: 12),
-                            ),
-                            Text(
-                              profData.id.toString(),
+                              profData.email,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,  fontSize: 12),
@@ -183,20 +184,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          children: [
-                            Text("Area: ",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12),),
-                            Text(
-                              profData.area,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,  fontSize: 12),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Text("Area: ",
+                        //       style: TextStyle(
+                        //           color: Colors.black,
+                        //           fontSize: 12),),
+                        //     // Text(
+                        //     //   profData.area,
+                        //     //   style: TextStyle(
+                        //     //       color: Colors.black,
+                        //     //       fontWeight: FontWeight.bold,  fontSize: 12),
+                        //     // ),
+                        //   ],
+                        // ),
                         SizedBox(
                           height: 20,
                         ),
@@ -233,7 +234,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: 15,
                           ),
                           Text(
-                            "\$" + profData.cash.toString(),
+                            "\৳" + profData.totalEarn.toString(),
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -270,7 +271,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 15,
                         ),
                         Text(
-                          "\$" + profData.withdrawAmount.toString(),
+                          "\৳" + profData.withdrawAmount.toString(),
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -311,7 +312,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 15,
                         ),
                         Text(
-                          "\$" + profData.dailyBonus.toString(),
+                          "\৳" + profData.dailyCommission.toString(),
+
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -370,16 +372,17 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.50,
-                    ),
-                    Container(
-                      height: 30,
-                      width: 30,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                        color: Colors.black54,
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 12),
+                        height: 30,
+                        width: 30,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: Colors.black54,
+                        ),
                       ),
                     ),
                   ],
@@ -422,16 +425,17 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.35,
-                    ),
-                    Container(
-                      height: 30,
-                      width: 30,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                        color: Colors.black54,
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 12),
+                        height: 30,
+                        width: 30,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: Colors.black54,
+                        ),
                       ),
                     ),
                   ],
@@ -474,75 +478,82 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.31,
-                    ),
-                    Container(
-                      height: 30,
-                      width: 30,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                        color: Colors.black54,
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 12),
+                        height: 30,
+                        width: 30,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: Colors.black54,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            // SizedBox(height: 20),
-            // SizedBox(
-            //   width: double.infinity,
-            //   child: ElevatedButton(
-            //     onPressed: () {
-            //       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => BottomNevigation()));
-            //     },
-            //     style: ButtonStyle(
-            //       // foregroundColor:
-            //       // MaterialStateProperty.all<Color>(Color(0xFFFFFFFF)),
-            //       backgroundColor:
-            //       MaterialStateProperty.all<Color>(Color(0xFFFFFFFF)),
-            //       shape:
-            //       MaterialStateProperty.all<RoundedRectangleBorder>(
-            //         RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.circular(0.0),
-            //         ),
-            //       ),
-            //     ),
-            //     child: Row(
-            //       children: [
-            //         Container(
-            //           height: 30,
-            //           width: 30,
-            //           child: Image(
-            //             image: AssetImage("assets/currency_change.png"),
-            //             fit: BoxFit.fill,
-            //           ),
-            //         ),
-            //         Padding(
-            //           padding: EdgeInsets.all(14.0),
-            //           child: Text(
-            //             'Currency Change',
-            //             style: TextStyle(fontSize: 16, color: Colors.black),
-            //           ),
-            //         ),
-            //         SizedBox(
-            //           width: MediaQuery.of(context).size.width * 0.36,
-            //         ),
-            //         Container(
-            //           height: 30,
-            //           width: 30,
-            //           child: Icon(
-            //             Icons.arrow_forward_ios,
-            //             size: 20,
-            //             color: Colors.black54,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
+
+
             SizedBox(height: 20),
+
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => _launchURL(context),
+                style: ButtonStyle(
+                  // foregroundColor:
+                  // MaterialStateProperty.all<Color>(Color(0xFFFFFFFF)),
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(Color(0xFFFFFFFF)),
+                  shape:
+                  MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                    ),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 30,
+                      width: 30,
+                      child: Image(
+                        image: AssetImage("assets/tree.png"),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(14.0),
+                      child: Text(
+                        'Tree',
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 12),
+                        height: 30,
+                        width: 30,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+
+            SizedBox(height: 20),
+
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -578,16 +589,17 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.59,
-                    ),
-                    Container(
-                      height: 30,
-                      width: 30,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                        color: Colors.black54,
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 12),
+                        height: 30,
+                        width: 30,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: Colors.black54,
+                        ),
                       ),
                     ),
                   ],
@@ -630,16 +642,17 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.53,
-                    ),
-                    Container(
-                      height: 30,
-                      width: 30,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                        color: Colors.black54,
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 12),
+                        height: 30,
+                        width: 30,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: Colors.black54,
+                        ),
                       ),
                     ),
                   ],
@@ -649,4 +662,35 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ));
   }
+
+  void _launchURL(BuildContext context) async {
+    try {
+      await launch(
+        'http://admin.havartye.com/tree/$USERNAME',
+        customTabsOption: CustomTabsOption(
+          toolbarColor: Theme.of(context).primaryColor,
+          enableDefaultShare: true,
+          enableUrlBarHiding: true,
+          showPageTitle: true,
+          extraCustomTabs: const <String>[
+            // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
+            'org.mozilla.firefox',
+            // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
+            'com.microsoft.emmx',
+          ],
+        ),
+        safariVCOption: SafariViewControllerOption(
+          preferredBarTintColor: Theme.of(context).primaryColor,
+          preferredControlTintColor: Colors.white,
+          barCollapsingEnabled: true,
+          entersReaderIfAvailable: false,
+          dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
+        ),
+      );
+    } catch (e) {
+      // An exception is thrown if browser app is not installed on Android device.
+      debugPrint(e.toString());
+    }
+  }
+
 }

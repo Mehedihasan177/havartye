@@ -39,7 +39,7 @@ class RegistrationSuccessfull extends StatelessWidget {
                     Text(
                       "Member Added Successfully",
                       style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 20,
                           color: Color(0xFF0040A1),
                           fontWeight: FontWeight.bold),
                     ),
@@ -75,7 +75,7 @@ class RegistrationSuccessfull extends StatelessWidget {
             Center(
               child: Text(
                 "New Member registration has been successful",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF0040A1)),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF0040A1)),
               ),
             ),
 

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:havartye/screen/bottomnevigation/bottomnevigation.dart';
 import 'package:havartye/screen/home_page.dart';
@@ -29,7 +30,7 @@ class _TreePageState extends State<TreePage> {
     return WillPopScope(
 
       onWillPop: () async {
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => BottomNevigation()));
         return true;
       },
       child: Scaffold(
@@ -43,24 +44,42 @@ class _TreePageState extends State<TreePage> {
             icon: Icon(Icons.arrow_back_ios),
           ),
         ),
-        body:  new WebviewScaffold(
-          url: widget.url,
-          appBar: new AppBar(
-            title: const Text('Widget Tree'),
-          ),
-          withZoom: true,
-          withLocalStorage: true,
-          hidden: true,
-          initialChild: Container(
-            color: Colors.redAccent,
-            child: const Center(
-              child: Text('Waiting.....'),
-            ),
+        body:  Center(
+          child: TextButton(
+            child: const Text('Show Flutter homepage'),
+            onPressed: () => _launchURL(context),
           ),
         ),
+
 
     )
       );
 
+  }
+  void _launchURL(BuildContext context) async {
+    try {
+      await launch(
+          'http://admin.havartye.com/tree/havartye',
+        customTabsOption: CustomTabsOption(
+
+          extraCustomTabs: const <String>[
+            // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
+            'org.mozilla.firefox',
+            // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
+            'com.microsoft.emmx',
+          ],
+        ),
+        safariVCOption: SafariViewControllerOption(
+          preferredBarTintColor: Theme.of(context).primaryColor,
+          preferredControlTintColor: Colors.white,
+          barCollapsingEnabled: true,
+          entersReaderIfAvailable: false,
+          dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
+        ),
+      );
+    } catch (e) {
+      // An exception is thrown if browser app is not installed on Android device.
+      debugPrint(e.toString());
+    }
   }
 }

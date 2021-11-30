@@ -55,7 +55,7 @@ class Data {
     required this.investment,
     required this.shopping,
     required this.withdrawAmount,
-    required this.dailyBonus,
+    required this.dailyCommotion,
     required this.dailyAddLimit,
     required this.leftUsers,
     required this.rightUsers,
@@ -75,18 +75,18 @@ class Data {
   String image;
   String type;
   String rank;
-  int cash;
+  double cash;
   int outsourcing;
   dynamic purchase;
-  int investment;
-  int shopping;
-  int withdrawAmount;
-  int dailyBonus;
-  int dailyAddLimit;
+  String investment;
+  String shopping;
+  String withdrawAmount;
+  String dailyCommotion;
+  String dailyAddLimit;
   int leftUsers;
   int rightUsers;
-  int leftCarry;
-  int rightCarry;
+  String leftCarry;
+  String rightCarry;
   String password;
 
   factory Data.fromJson(Map<dynamic, dynamic> json) => Data(
@@ -101,19 +101,19 @@ class Data {
     image: json["image"],
     type: json["type"],
     rank: json["rank"].toString(),
-    cash: json["cash"],
+    cash: json["cash"].toDouble(),
     outsourcing: json["outsourcing"],
     purchase: json["purchase"],
-    investment: json["investment"],
-    shopping: json["shopping"],
-    withdrawAmount: json["withdraw_amount"],
-    dailyBonus: json["daily_bonus"],
-    dailyAddLimit: json["daily_add_limit"],
+    investment: json["investment"].toString(),
+    shopping: json["shopping"].toString(),
+    withdrawAmount: json["withdraw_amount"].toString(),
+    dailyCommotion: json["daily_commotion"].toString(),
+    dailyAddLimit: json["daily_add_limit"].toString(),
     leftUsers: json["left_users"],
     rightUsers: json["right_users"],
-    leftCarry: json["left_carry"],
-    rightCarry: json["right_carry"],
-    password: json["password"],
+    leftCarry: json["left_carry"].toString(),
+    rightCarry: json["right_carry"].toString(),
+    password: json["password"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -134,7 +134,7 @@ class Data {
     "investment": investment,
     "shopping": shopping,
     "withdraw_amount": withdrawAmount,
-    "daily_bonus": dailyBonus,
+    "daily_commotion": dailyCommotion,
     "daily_add_limit": dailyAddLimit,
     "left_users": leftUsers,
     "right_users": rightUsers,

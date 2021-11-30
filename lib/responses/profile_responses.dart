@@ -34,108 +34,64 @@ class ProfileResponse {
 
 class Data {
   Data({
-    required this.id,
     required this.name,
     required this.email,
     required this.phone,
-    required this.packageValidity,
-    required this.packageName,
     required this.district,
     required this.area,
     required this.image,
     required this.type,
     required this.rank,
-    required this.cash,
-    required this.outsourcing,
-    required this.purchase,
-    required this.investment,
-    required this.shopping,
+    required this.totalEarn,
     required this.withdrawAmount,
-    required this.dailyBonus,
+    required this.dailyCommission,
+    required this.investAmount,
     required this.dailyAddLimit,
-    required this.leftUsers,
-    required this.rightUsers,
-    required this.leftCarry,
-    required this.rightCarry,
-    required this.password,
   });
 
-  int id;
   String name;
   String email;
   String phone;
-  String packageValidity;
-  String packageName;
   String district;
-  String area;
+  dynamic area;
   String image;
   String type;
   String rank;
-  int cash;
-  int outsourcing;
-  dynamic purchase;
-  int investment;
-  int shopping;
-  int withdrawAmount;
-  int dailyBonus;
-  int dailyAddLimit;
-  int leftUsers;
-  int rightUsers;
-  int leftCarry;
-  int rightCarry;
-  String password;
+  String totalEarn;
+  String withdrawAmount;
+  String dailyCommission;
+  String investAmount;
+  String dailyAddLimit;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    id: json["id"],
     name: json["name"],
     email: json["email"],
     phone: json["phone"],
-    packageValidity: (json["package_validity"]),
-    packageName: json["package_name"],
     district: json["district"],
     area: json["area"],
     image: json["image"],
     type: json["type"],
-    rank: json["rank"],
-    cash: json["cash"],
-    outsourcing: json["outsourcing"],
-    purchase: json["purchase"],
-    investment: json["investment"],
-    shopping: json["shopping"],
-    withdrawAmount: json["withdraw_amount"],
-    dailyBonus: json["daily_bonus"],
-    dailyAddLimit: json["daily_add_limit"],
-    leftUsers: json["left_users"],
-    rightUsers: json["right_users"],
-    leftCarry: json["left_carry"],
-    rightCarry: json["right_carry"],
-    password: json["password"],
+    rank: json["rank"].toString(),
+    totalEarn: json["total_earn"].toString(),
+    withdrawAmount: json["withdraw_amount"].toString(),
+    dailyCommission: json["daily_commission"].toString(),
+    investAmount: json["invest_amount"].toString(),
+    dailyAddLimit: json["daily_add_limit"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
     "name": name,
     "email": email,
     "phone": phone,
-    "package_validity": packageValidity,
-    "package_name": packageName,
     "district": district,
     "area": area,
     "image": image,
     "type": type,
     "rank": rank,
-    "cash": cash,
-    "outsourcing": outsourcing,
-    "purchase": purchase,
-    "investment": investment,
-    "shopping": shopping,
+    "total_earn": totalEarn,
     "withdraw_amount": withdrawAmount,
-    "daily_bonus": dailyBonus,
+    "daily_commission": dailyCommission,
+    "invest_amount": investAmount,
     "daily_add_limit": dailyAddLimit,
-    "left_users": leftUsers,
-    "right_users": rightUsers,
-    "left_carry": leftCarry,
-    "right_carry": rightCarry,
-    "password": password,
   };
 }

@@ -132,8 +132,10 @@ class _AdViewUIState extends State<AdViewUI> {
           // AdViewResponse adViewResponse = AdViewResponse.fromJson(jsonDecode(value.body));
           signInAgain();
         }
-
-
+        else{
+          AlertDialogueHelper().showAlertDialog(context, 'Warning',
+              'You can not avail ROE today');
+        }
       });
     });
   }

@@ -7,6 +7,8 @@ import 'package:havartye/responses/transaction_responses.dart';
 import 'package:havartye/screen/profile_page.dart';
 import 'package:intl/intl.dart';
 
+import 'bottomnevigation/bottomnevigation.dart';
+
 class TransactionHistory extends StatefulWidget {
   final String toShowData;
   const TransactionHistory({Key? key, required this.toShowData}) : super(key: key);
@@ -44,30 +46,37 @@ class _TransactionHistoryState extends State<TransactionHistory> {
   @override
   Widget build(BuildContext context) {
     transaction = transaction.reversed.toList();
-    return Scaffold(
-      appBar: AppBar(title: const Text('Transaction History'),),
-        body: SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-              child: ListView.builder(
-                  itemCount: transaction.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    if(widget.toShowData=='income'){
-                      if((transaction[index].type.toLowerCase()=='referral')||(transaction[index].type.toLowerCase()=='matching')){
-                        return buildTransactionTile(transaction[index]);
-                      }else{
-                        return Container();
-                      }
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => BottomNevigation()));
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Transaction History'),),
+          body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+                child: ListView.builder(
+                    itemCount: transaction.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      if(widget.toShowData=='income'){
+                        if((transaction[index].type.toLowerCase()=='referral')||(transaction[index].type.toLowerCase()=='matching')){
+                          return buildTransactionTile(transaction[index]);
+                        }else{
+                          return Container();
+                        }
 
-                    }else
-                    return buildTransactionTile(transaction[index]);
-                  })),
-        ],
-      ),
-    ));
+                      }else
+                      return buildTransactionTile(transaction[index]);
+                    })),
+          ],
+        ),
+      )),
+    );
   }
 }
 

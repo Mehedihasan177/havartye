@@ -1,14 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:havartye/constents/constant.dart';
 import 'package:havartye/controllers/create_account_controller.dart';
 import 'package:havartye/controllers/district_controller.dart';
 import 'package:havartye/controllers/division_controller.dart';
 import 'package:havartye/controllers/position_tracking_controller.dart';
+import 'package:havartye/controllers/signIn_controller.dart';
 import 'package:havartye/helper/alertDialogue.dart';
 import 'package:havartye/model/create_account_model.dart';
+import 'package:havartye/model/sign_model.dart';
 import 'package:havartye/responses/position_tracking_responses.dart';
+import 'package:havartye/responses/signIn_responses.dart';
 import 'package:havartye/screen/bottomnevigation/bottomnevigation.dart';
 import 'package:havartye/screen/dropdown_button_district.dart';
 import 'package:havartye/screen/dropdown_button_placement_position.dart';
@@ -172,11 +176,12 @@ class _AddMemberState extends State<AddMember> {
         )
       ];
     }
+
     ///division items
 
-
     ///district items
-    List<DropdownMenuItem> districtItems = districtListRenewd.map((districtItem) {
+    List<DropdownMenuItem> districtItems =
+        districtListRenewd.map((districtItem) {
       return DropdownMenuItem<dist.Datum>(
         child: Text(districtItem.name),
         value: districtItem,
@@ -192,6 +197,7 @@ class _AddMemberState extends State<AddMember> {
         )
       ];
     }
+
     ///district items
 
     return WillPopScope(
@@ -201,7 +207,9 @@ class _AddMemberState extends State<AddMember> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(title: Text("Create a Member"),),
+        appBar: AppBar(
+          title: Text("Create a Member"),
+        ),
         body: Center(
           child: Container(
             child: ListView(
@@ -210,50 +218,7 @@ class _AddMemberState extends State<AddMember> {
                   padding: EdgeInsets.only(top: 20),
                   child: Column(
                     children: [
-                      //username
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        width: MediaQuery.of(context).size.width * 0.80,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.person,
-                                  size: 18,
-                                  color: Colors.black.withOpacity(0.6),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Text(
-                                  "Username",
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            TextField(
-                              controller: _textUsername,
-                              keyboardType: TextInputType.text,
-                              style: TextStyle(color: Colors.black),
-                              //scrollPadding: EdgeInsets.all(10),
-                              decoration: InputDecoration(
-                                //contentPadding: EdgeInsets.all(20),
-                                hintText: "Enter your username",
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      //fullname
+                      //Username
                       Column(
                         children: [
                           Padding(
@@ -271,19 +236,14 @@ class _AddMemberState extends State<AddMember> {
                                   width: 20,
                                 ),
                                 Text(
-                                  "Full Name",
+                                  "User Name",
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
                             ),
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.width * 0.80,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 35, right: 35),
                             child: TextField(
                               controller: _textFullname,
                               keyboardType: TextInputType.text,
@@ -291,14 +251,58 @@ class _AddMemberState extends State<AddMember> {
                               //scrollPadding: EdgeInsets.all(10),
                               decoration: InputDecoration(
                                 //contentPadding: EdgeInsets.all(20),
-                                hintText: "Enter your full name",
+                                hintText: "Enter your username",
                               ),
                             ),
                           ),
                         ],
                       ),
+
                       SizedBox(
-                        height: 10,
+                        height: 20,
+                      ),
+                      //username
+                      Padding(
+                        padding: const EdgeInsets.only(left: 35, right: 35),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.person,
+                                  size: 18,
+                                  color: Colors.black.withOpacity(0.6),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Text(
+                                  "Full name",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            TextField(
+                              controller: _textUsername,
+                              keyboardType: TextInputType.text,
+                              style: TextStyle(color: Colors.black),
+                              //scrollPadding: EdgeInsets.all(10),
+                              decoration: InputDecoration(
+                                //contentPadding: EdgeInsets.all(20),
+                                hintText: "Enter your fullname",
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: 20,
                       ),
                       //NID
                       Column(
@@ -327,13 +331,8 @@ class _AddMemberState extends State<AddMember> {
                               ],
                             ),
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.width * 0.80,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 35, right: 35),
                             child: TextField(
                               controller: _textNID,
                               keyboardType: TextInputType.text,
@@ -348,7 +347,7 @@ class _AddMemberState extends State<AddMember> {
                         ],
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       //Email
                       Column(
@@ -374,13 +373,8 @@ class _AddMemberState extends State<AddMember> {
                               ],
                             ),
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.width * 0.80,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 35, right: 35),
                             child: TextField(
                               controller: _textEmail,
                               keyboardType: TextInputType.emailAddress,
@@ -425,13 +419,8 @@ class _AddMemberState extends State<AddMember> {
                               ],
                             ),
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.width * 0.80,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 35, right: 35),
                             child: TextField(
                               controller: _textPhonenumber,
                               keyboardType: TextInputType.text,
@@ -439,7 +428,7 @@ class _AddMemberState extends State<AddMember> {
                               //scrollPadding: EdgeInsets.all(10),
                               decoration: InputDecoration(
                                 //contentPadding: EdgeInsets.all(20),
-                                hintText: "Enter your username",
+                                hintText: "Enter your phone number",
                               ),
                             ),
                           ),
@@ -539,7 +528,7 @@ class _AddMemberState extends State<AddMember> {
                               // alignment: Alignment.center,
                               // height:
                               //     MediaQuery.of(context).size.height * 0.067,
-                               width: MediaQuery.of(context).size.width * 0.87,
+                              width: MediaQuery.of(context).size.width * 0.87,
                               decoration: BoxDecoration(
                                 border: Border.all(),
                                 borderRadius: BorderRadius.circular(10),
@@ -566,41 +555,54 @@ class _AddMemberState extends State<AddMember> {
                                     .toList(),
                                 onChanged: (value) => setState(() {
                                   this.position = value!;
-                                  print(this.position.posID);
                                   print(this.position.title);
+                                  print(this.position.posID);
                                   myCurrentPos = this.position.posID;
-                                  _getPositionTrack(myCurrentPos);
+                                  _getPositionTrack(position.posID);
                                 }),
                               ),
                             ),
                           ),
-
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.width * 0.80,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            child: TextField(
-                              controller: _textPosID,
-                              keyboardType: TextInputType.text,
-                              style: TextStyle(color: Colors.black),
-                              enabled: false,
-                              //scrollPadding: EdgeInsets.all(10),
-                              decoration: InputDecoration(
-                                //contentPadding: EdgeInsets.all(20),
-                                hintText: "Your position id",
-                              ),
-                            ),
+                          SizedBox(
+                            height: 10,
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.width * 0.80,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 37, top: 13),
+                                child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(position.posID.toString())),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 35, right: 35, top: 10),
+                                child: Divider(
+                                  height: 2,
+                                  thickness: 1,
+                                  color: Colors.black.withOpacity(0.5),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: 35, right: 35),
+                          //   child: TextField(
+                          //       controller: _textPosID,
+                          //       keyboardType: TextInputType.text,
+                          //       style: TextStyle(color: Colors.black),
+                          //       enabled: false,
+                          //       //scrollPadding: EdgeInsets.all(10),
+                          //       decoration: InputDecoration(
+                          //         //contentPadding: EdgeInsets.all(20),
+                          //         hintText: "Your position id",
+                          //       ),
+                          //     ),
+                          // ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 35, right: 35),
                             child: TextField(
                               controller: _textuserTrackName,
                               keyboardType: TextInputType.text,
@@ -613,11 +615,14 @@ class _AddMemberState extends State<AddMember> {
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Text(currentMessage),
                         ],
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
 
                       //District
@@ -650,37 +655,35 @@ class _AddMemberState extends State<AddMember> {
                                 ],
                               ),
                             ),
+                            SizedBox(
+                              height: 5,
+                            ),
                             Container(
                               alignment: Alignment.centerLeft,
                               padding: EdgeInsets.only(left: 10),
-
+                              height: MediaQuery.of(context).size.height * 0.06,
                               width: MediaQuery.of(context).size.width * 0.87,
                               decoration: BoxDecoration(
                                 border: Border.all(),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-
-                                      child: DropdownButton<dynamic>(
-                                        items: divistionItems,
-                                        onChanged: (newValDiv) {
-                                          print(newValDiv);
-                                          if(newValDiv.id!=999)
-                                            setState(() {
-
-                                              selectedDivision = newValDiv;
-                                              renewDistrict(selectedDivision);
-
-                                            });
-                                        },
-                                        value: selectedDivision,
-                                      ),
-                                    ),
-
-
-
+                              child: DropdownButton<dynamic>(
+                                items: divistionItems,
+                                onChanged: (newValDiv) {
+                                  print(newValDiv);
+                                  if (newValDiv.id != 999)
+                                    setState(() {
+                                      selectedDivision = newValDiv;
+                                      renewDistrict(selectedDivision);
+                                    });
+                                },
+                                value: selectedDivision,
+                              ),
+                            ),
                             Container(
                               alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(left: 16, bottom: 10, top: 10),
+                              padding: EdgeInsets.only(
+                                  left: 16, bottom: 10, top: 20),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -704,86 +707,85 @@ class _AddMemberState extends State<AddMember> {
                                 ],
                               ),
                             ),
-                           Center(
-                             child: Container(
-                               alignment: Alignment.centerLeft,
-                               padding: EdgeInsets.only(left: 10),
-                               width: MediaQuery.of(context).size.width * 0.87,
-                               decoration: BoxDecoration(
-                                 border: Border.all(),
-                                 borderRadius: BorderRadius.circular(10),
-                               ),
-                                    child: DropdownButton<dynamic>(
-                                        items: districtItems,
-                                        onChanged: (newValDist) {
-                                          print(newValDist);
-                                          if(newValDist.id!=999)
-                                            setState(() => selectedDistricts = newValDist);
-                                        },
-                                        value: selectedDistricts,
-                                      ),
-
-                                  ),
-                           ),
-
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Center(
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(left: 10),
+                                height:
+                                    MediaQuery.of(context).size.width * 0.12,
+                                width: MediaQuery.of(context).size.width * 0.87,
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: DropdownButton<dynamic>(
+                                  items: districtItems,
+                                  onChanged: (newValDist) {
+                                    print(newValDist);
+                                    if (newValDist.id != 999)
+                                      setState(
+                                          () => selectedDistricts = newValDist);
+                                  },
+                                  value: selectedDistricts,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
 
                       //Area
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 33),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 17,
-                                  width: 17,
-                                  child: Image(
-                                    image: AssetImage("assets/region.png"),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Text(
-                                  "Area",
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.width * 0.80,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            child: TextField(
-                              controller: _textArea,
-                              keyboardType: TextInputType.text,
-                              style: TextStyle(color: Colors.black),
-                              //scrollPadding: EdgeInsets.all(10),
-                              decoration: InputDecoration(
-                                //contentPadding: EdgeInsets.all(20),
-                                hintText: "Enter your area",
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Column(
+                      //   children: [
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(left: 33),
+                      //       child: Row(
+                      //         mainAxisAlignment: MainAxisAlignment.start,
+                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //         children: [
+                      //           Container(
+                      //             height: 17,
+                      //             width: 17,
+                      //             child: Image(
+                      //               image: AssetImage("assets/region.png"),
+                      //               fit: BoxFit.cover,
+                      //             ),
+                      //           ),
+                      //           SizedBox(
+                      //             width: 20,
+                      //           ),
+                      //           Text(
+                      //             "Area",
+                      //             style: TextStyle(fontSize: 17),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(left: 35, right: 35, top: 5),
+                      //       child: TextField(
+                      //           controller: _textArea,
+                      //           keyboardType: TextInputType.text,
+                      //           style: TextStyle(color: Colors.black),
+                      //           //scrollPadding: EdgeInsets.all(10),
+                      //           decoration: InputDecoration(
+                      //             //contentPadding: EdgeInsets.all(20),
+                      //             hintText: "Enter your area",
+                      //           ),
+                      //         ),
+                      //     ),
+                      //
+                      //   ],
+                      // ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
-
 
                       //Password
                       Column(
@@ -812,13 +814,11 @@ class _AddMemberState extends State<AddMember> {
                               ],
                             ),
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.width * 0.80,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 35, right: 35),
                             child: TextField(
                               controller: _textPassword,
                               keyboardType: TextInputType.text,
@@ -832,7 +832,6 @@ class _AddMemberState extends State<AddMember> {
                           ),
                         ],
                       ),
-
                     ],
                   ),
                 ),
@@ -854,18 +853,17 @@ class _AddMemberState extends State<AddMember> {
                         print("token at call mehedi hasan who are you: " +
                             APITOKEN);
                         CreateAccountModel passChange = new CreateAccountModel(
-                            name: _textUsername.text,
-                            user_name: _textFullname.text,
-                            phone: _textPhonenumber.text,
-                            nid_number: _textNID.text,
-                            email: _textEmail.text,
-                            pos_id: _textPosID.text,
-                            position: myCurrentPos.toString(),
-                            division_id: selectedDivision.id,
-                            district_id: selectedDistricts.id,
-
-                            area: _textArea.text,
-                            password: _textPassword.text,
+                          name: _textUsername.text,
+                          user_name: _textFullname.text,
+                          phone: _textPhonenumber.text,
+                          nid_number: _textNID.text,
+                          email: _textEmail.text,
+                          pos_id: _textPosID.text,
+                          position: myCurrentPos.toString(),
+                          division_id: selectedDivision.id,
+                          district_id: selectedDistricts.id,
+                          area: _textArea.text,
+                          password: _textPassword.text,
                         );
 
                         CreateAccountController.requestThenResponsePrint(
@@ -875,24 +873,27 @@ class _AddMemberState extends State<AddMember> {
                           print(value.body);
                           if (value.statusCode == 200) {
                             print("successfully done");
-
-                            Navigator.pushReplacement(
+                            AlertDialogueHelper().showAlertDialog(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegistrationSuccessfull()));
+                                'Congratulation',
+                                'Successfully account created');
+                            signInAgain(context);
+                            // Navigator.pushReplacement(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => RegistrationSuccessfull()));
 
                           } else {
                             AlertDialogueHelper().showAlertDialog(
-                                context,
-                                'Warning',
-                                'Something is wrong');
+                                context, 'Warning', 'User name already exist');
                           }
                         });
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xFF1A150D),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18)),
+                            borderRadius: BorderRadius.circular(18)
+                        ),
                       ),
                     ),
                     decoration: BoxDecoration(
@@ -909,6 +910,40 @@ class _AddMemberState extends State<AddMember> {
         ),
       ),
     );
+  }
+
+  Future<void> signInAgain(BuildContext context) async {
+    EasyLoading.show(status: 'loading...');
+
+    SignInModel myInfo = new SignInModel(password: USERPASS, name: USERNAME);
+    await SigninController.requestThenResponsePrint(myInfo).then((value) async {
+      print(value.statusCode);
+      print(value.body);
+      final Map parsed = json.decode(value.body);
+
+      final loginobject = SignInResponse.fromJson(parsed);
+      SIGNINRESPONSE = loginobject;
+      print(loginobject.accessToken);
+
+      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
+      CASHWALLET = SIGNINRESPONSE.data.cash;
+
+      APITOKEN = loginobject.accessToken;
+      // sharedPreferences.setString("token", loginobject.accessToken);
+      EasyLoading.dismiss();
+      if (value.statusCode == 200) {
+        USERNAME = USERNAME;
+        USERPASS = USERPASS;
+        return Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => BottomNevigation()),
+        );
+      } else {
+        // return LoginController.requestThenResponsePrint(jsonData);
+        AlertDialogueHelper().showAlertDialog(
+            context, 'Warning', 'Please recheck email and password');
+      }
+    });
   }
 }
 // Color(0xFF0040A1),

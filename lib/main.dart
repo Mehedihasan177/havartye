@@ -1,11 +1,17 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:havartye/screen/splash_Screen.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'dart:io';
 
-void main() {
-  GestureBinding.instance?.resamplingEnabled = true;
-  WidgetsFlutterBinding.ensureInitialized();
+void main() async{
+  //WidgetsFlutterBinding.ensureInitialized();
+
+  // if (Platform.isAndroid) {
+  //   await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+  // }
+  //GestureBinding.instance?.resamplingEnabled = true;
+  // WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

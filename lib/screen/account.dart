@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:havartye/constents/constant.dart';
 import 'package:havartye/responses/profile_responses.dart';
 import 'package:havartye/screen/bottomnevigation/bottomnevigation.dart';
 import 'package:havartye/screen/profile_page.dart';
@@ -22,7 +23,7 @@ class _AccountState extends State<Account> {
     return WillPopScope(
 
       onWillPop: () async {
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => ProfilePage()));
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => BottomNevigation()));
         return true;
       },
       child: Scaffold(
@@ -276,114 +277,59 @@ class _AccountState extends State<Account> {
                     height: 10,
                   ),
                   //Area
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 33),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 17,
-                              width: 17,
-                              child: Image(image: AssetImage("assets/region.png"),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              "Area",
-                              style: TextStyle(fontSize: 17),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                          height: MediaQuery.of(context).size.height * 0.08,
-                          width: MediaQuery.of(context).size.width * 0.80,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(widget.ProfData.area)),
-                              ),
-                              const Divider(
-                                thickness: 1, // thickness of the line
-                                indent: 5, // empty space to the leading edge of divider.
-                                endIndent: 5, // empty space to the trailing edge of the divider.
-                                color: Colors.black, // The color to use when painting the line.
-                                height: 5, // The divider's height extent.
-                              ),
-                            ],
-                          )
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  // Column(
+                  //   children: [
+                  //     Padding(
+                  //       padding: const EdgeInsets.only(left: 33),
+                  //       child: Row(
+                  //         mainAxisAlignment: MainAxisAlignment.start,
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           Container(
+                  //             height: 17,
+                  //             width: 17,
+                  //             child: Image(image: AssetImage("assets/region.png"),
+                  //               fit: BoxFit.cover,
+                  //             ),
+                  //           ),
+                  //           SizedBox(
+                  //             width: 20,
+                  //           ),
+                  //           Text(
+                  //             "Area",
+                  //             style: TextStyle(fontSize: 17),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //         height: MediaQuery.of(context).size.height * 0.08,
+                  //         width: MediaQuery.of(context).size.width * 0.80,
+                  //         decoration: BoxDecoration(
+                  //           color: Colors.white,
+                  //           borderRadius: BorderRadius.circular(18),
+                  //         ),
+                  //         child: Column(
+                  //           children: [
+                  //             Padding(
+                  //               padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
+                  //               child: Align(
+                  //                   alignment: Alignment.centerLeft,
+                  //                   child: Text(widget.ProfData.area)),
+                  //             ),
+                  //             const Divider(
+                  //               thickness: 1, // thickness of the line
+                  //               indent: 5, // empty space to the leading edge of divider.
+                  //               endIndent: 5, // empty space to the trailing edge of the divider.
+                  //               color: Colors.black, // The color to use when painting the line.
+                  //               height: 5, // The divider's height extent.
+                  //             ),
+                  //           ],
+                  //         )
+                  //     ),
+                  //   ],
+                  // ),
 
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 33),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 17,
-                              width: 17,
-                              child: Image(image: AssetImage("assets/packages1.png"),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              "Package Name",
-                              style: TextStyle(fontSize: 17),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        width: MediaQuery.of(context).size.width * 0.80,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(widget.ProfData.packageName)),
-                            ),
-                            const Divider(
-                              thickness: 1, // thickness of the line
-                              indent: 5, // empty space to the leading edge of divider.
-                              endIndent: 5, // empty space to the trailing edge of the divider.
-                              color: Colors.black, // The color to use when painting the line.
-                              height: 5, // The divider's height extent.
-                            ),
-                          ],
-                        )
-                      ),
-                    ],
-                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -541,7 +487,7 @@ class _AccountState extends State<Account> {
                                 padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
                                 child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text(widget.ProfData.password)),
+                                    child: Text(USERPASS)),
                               ),
                               const Divider(
                                 thickness: 1, // thickness of the line

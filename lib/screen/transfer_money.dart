@@ -233,10 +233,7 @@ class _TransferMoneyState extends State<TransferMoney> {
                     onPressed: () {
                       print("token of user\n");
                       print("token at call : " + APITOKEN);
-                      BalanceTraNsferResponse pass = new BalanceTraNsferResponse(
-                         msg: '', success: true, amount: _textamountd.text,
 
-                      );
                       amount = int.parse(_textamountd.text);
                       password = int.parse(_textpasswordd.text) ;
                       if(amount > OUTSOURCINGWALLET){
@@ -245,30 +242,34 @@ class _TransferMoneyState extends State<TransferMoney> {
                       else if(amount == 0){
                         AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Balance is zero');
                       }
-                      else if(amount == OUTSOURCINGWALLET || amount < OUTSOURCINGWALLET && password == USERPASS){
-                        var param;
-                        BalanceTransferController.requestThenResponsePrint(context,APITOKEN, param).then((value) {
-                          print(value.statusCode);
-                          if (value.statusCode == 200) {
-                            print("successfully done");
-                            print(value);
-                            print(value.body);
+                      else if(amount == OUTSOURCINGWALLET || amount < OUTSOURCINGWALLET || password == USERPASS){
 
-                            TransactionRe withdraw = TransactionRe.fromJson(jsonDecode(value.body.toString()));
-                            print(withdraw);
-                            print(withdraw.amount);
+                         BalanceTransferController.requestThenResponsePrint(context,APITOKEN, amount).then((value) {
+                           print(value.statusCode);
+                           if (value.statusCode == 200) {
+                             print("successfully done");
+                             print(value);
+                             print(value.body);
 
-                            signInAgain(context);
+                             BalanceTraNsferResponse withdraw = BalanceTraNsferResponse.fromJson(jsonDecode(value.body.toString()));
+                             print(withdraw);
+                             print(withdraw.amount);
+
+                             signInAgain(context);
 
 
-                          }else{
-                            AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Please recheck mobile and password');
-                          }
-                        }
-                        );
+                           }else{
+                             AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Please recheck amount or password');
+                           }
+                         }
+                         );
+
+
+
                       }
 
                     },
+
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xFF0040A1).withOpacity(0.7),
                       shape: RoundedRectangleBorder(

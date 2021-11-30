@@ -34,8 +34,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _isloading = false;
   bool _passwordVisible = false;
-  TextEditingController _textEmail = TextEditingController(text: 'b');
-  TextEditingController _textPassword = TextEditingController(text: '123456789');
+  TextEditingController _textEmail = TextEditingController(text: "z");
+  TextEditingController _textPassword = TextEditingController(text: "1122");
   @override
   void initState() {
     // TODO: implement initState
@@ -180,14 +180,18 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 onPressed: () async {
-                  EasyLoading.show(status: 'loading...');
 
+                  EasyLoading.show(status: 'loading...');
                   SignInModel myInfo = new SignInModel(
                       password: _textPassword.text, name: _textEmail.text);
                   await SigninController.requestThenResponsePrint(myInfo)
                       .then((value) async {
+
                     print(value.statusCode);
                     print(value.body);
+                    if (value.statusCode == 200) {
+
+
                     final Map parsed = json.decode(value.body);
 
                     final loginobject = SignInResponse.fromJson(parsed);
@@ -197,27 +201,30 @@ class _LoginPageState extends State<LoginPage> {
                     OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
                     CASHWALLET = SIGNINRESPONSE.data.cash;
 
+                    USERID = SIGNINRESPONSE.data.id;
 
 
-                    APITOKEN = loginobject.accessToken;
+                        APITOKEN = loginobject.accessToken;
                     // sharedPreferences.setString("token", loginobject.accessToken);
                     EasyLoading.dismiss();
-                    if (value.statusCode == 200) {
+
                       print("name: " + _textEmail.text);
                       print("password: "+ _textPassword.text);
                       // sharedPreferences.setString("name", _textEmail.text);
                       // sharedPreferences.setString("password", _textPassword.text);
                       USERNAME = _textEmail.text;
                       USERPASS = _textPassword.text;
+
                       return Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => BottomNevigation()),
                       );
-                    } else {
+                    } else if(value.statusCode != 200) {
+                      EasyLoading.dismiss();
                       // return LoginController.requestThenResponsePrint(jsonData);
                       AlertDialogueHelper().showAlertDialog(context, 'Warning',
-                          'Please recheck email and password');
+                          'Please recheck name or password');
                     }
                   });
                 },
