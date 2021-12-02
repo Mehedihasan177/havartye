@@ -99,6 +99,7 @@ Widget buildTransactionTile(TransactionRe transaction) => SingleChildScrollView(
                           ),
                         )
                     ),
+                    ///referral id will inter
                     Container(
                       padding: EdgeInsets.only(bottom: 6),
                         alignment: Alignment.centerLeft,

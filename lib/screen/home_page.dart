@@ -44,6 +44,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Datum> allPackages = [];
+  var getpackage;
   // List<currentPackage.Data> recentPackages = [];
 
   int id = 0;
@@ -1050,41 +1051,42 @@ bool isVisible = true;
               ),
               hudaiekai(),
               Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25),
-                    child: Text(
-                      "Product Packages",
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25, top: 20),
+                      child: Text(
+                        "Product Packages",
+                        style:
+                            TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    padding: EdgeInsets.only(left: 20),
-                    alignment: Alignment.centerLeft,
-                    height: 150,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: allPackages.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return allPackages[index].type.toLowerCase() ==
-                                  'product'.toLowerCase()
-                              ? buildAllPackagesTile(allPackages[index])
-                              : Container();
-                        }),
-                  ),
-                ],
-              ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
+                      padding: EdgeInsets.only(left: 20),
+                      alignment: Alignment.centerLeft,
+                      height: 100,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: allPackages.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return allPackages[index].type.toLowerCase() ==
+                                    'product'.toLowerCase()
+                                ? buildAllPackagesTile(allPackages[index])
+                                : Container();
+                          }),
+                    ),
+                  ],
+                ),
+              
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 25),
+                    padding: const EdgeInsets.only(left: 25, top: 10),
                     child: Text(
                       "Outsourcing Packages",
                       style:
@@ -1092,10 +1094,10 @@ bool isVisible = true;
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    //margin: const EdgeInsets.symmetric(vertical: 0.0),
                     padding: EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
-                    height: 150,
+                    height: 100,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
@@ -1114,7 +1116,7 @@ bool isVisible = true;
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 25),
+                    padding: const EdgeInsets.only(left: 25, top: 15),
                     child: Text(
                       "Founder Packages",
                       style:
@@ -1150,28 +1152,32 @@ bool isVisible = true;
         child: Stack(
           children: [
             Container(
-              height: 160,
+              height: 100,
               width: 230,
               child: Card(
-                color: Color(0xFF4F45A1),
+                color: Color(0xFF3ECAE8),
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        allPackag.name,
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                      Container(
+                        alignment: Alignment.center,
+                        //padding: EdgeInsets.only(left: 45),
+                        child: Text(
+                          allPackag.name,
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: 10,),
                       Text(
                         "\৳" + allPackag.amount.toString(),
                         style: TextStyle(
-                            fontSize: 27,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
@@ -1198,10 +1204,10 @@ bool isVisible = true;
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 205, top: 60),
+              padding: const EdgeInsets.only(left: 210, top: 40),
               child: Container(
-                height: 35,
-                width: 35,
+                height: 25,
+                width: 25,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(40))),
                 child: ClipOval(
@@ -1214,7 +1220,37 @@ bool isVisible = true;
                           barrierDismissible: false, // user must tap button!
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text(allPackag.name),
+                              title: Column(
+                                children: [
+                                  Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(allPackag.name)),
+                                  Container(
+                                    padding: EdgeInsets.only(top: 5),
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Amount: \৳"+allPackag.amount.toString(),
+                                      style: TextStyle(
+                                        fontSize: 17
+                                      ),
+                                      )),
+                                  Container(
+                                      padding: EdgeInsets.only(top: 5),
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Ad Limit: "+allPackag.adLimit.toString() + " day",
+                                        style: TextStyle(
+                                            fontSize: 17
+                                        ),
+                                      )),
+                                  Container(
+                                      padding: EdgeInsets.only(top: 5),
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Created at: "+allPackag.createdAt.day.toString(),
+                                        style: TextStyle(
+                                            fontSize: 17
+                                        ),
+                                      )),
+                                ],
+                              ),
                               content: SingleChildScrollView(
                                 child: ListBody(
                                   children: <Widget>[
@@ -1311,11 +1347,11 @@ bool isVisible = true;
           child: Align(
             alignment: Alignment.centerLeft,
             child: SizedBox(
-              height: 150,
+              height: 100,
               width: 240,
               child: Card(
                 elevation: 2,
-                color: Color(0xFF4F45A1),
+                color: Colors.green,
                 child: Padding(
                   padding: const EdgeInsets.only(
                     top: 20,
@@ -1327,15 +1363,15 @@ bool isVisible = true;
                       Text(
                         Name,
                         style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: 10,),
                       Text(
                         "\৳" + amount.toString(),
                         style: TextStyle(
-                            fontSize: 27,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
@@ -1382,7 +1418,7 @@ Future<void> signInAgain(BuildContext context) async {
     SIGNINRESPONSE = loginobject;
     print(loginobject.accessToken);
 
-    OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
+    OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
     CASHWALLET = SIGNINRESPONSE.data.cash;
 
     APITOKEN = loginobject.accessToken;

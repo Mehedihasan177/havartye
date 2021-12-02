@@ -41,13 +41,13 @@ class Datum {
   });
 
   int id;
-  int amount;
+  double amount;
   String status;
   DateTime date;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["id"],
-    amount: json["amount"],
+    amount: json["amount"].toDouble(),
     status: json["status"],
     date: DateTime.parse(json["date"]),
   );

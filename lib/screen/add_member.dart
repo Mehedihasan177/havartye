@@ -245,7 +245,7 @@ class _AddMemberState extends State<AddMember> {
                           Padding(
                             padding: const EdgeInsets.only(left: 35, right: 35),
                             child: TextField(
-                              controller: _textFullname,
+                              controller: _textUsername,
                               keyboardType: TextInputType.text,
                               style: TextStyle(color: Colors.black),
                               //scrollPadding: EdgeInsets.all(10),
@@ -288,7 +288,7 @@ class _AddMemberState extends State<AddMember> {
                               width: 20,
                             ),
                             TextField(
-                              controller: _textUsername,
+                              controller: _textFullname,
                               keyboardType: TextInputType.text,
                               style: TextStyle(color: Colors.black),
                               //scrollPadding: EdgeInsets.all(10),
@@ -853,8 +853,8 @@ class _AddMemberState extends State<AddMember> {
                         print("token at call mehedi hasan who are you: " +
                             APITOKEN);
                         CreateAccountModel passChange = new CreateAccountModel(
-                          name: _textUsername.text,
                           user_name: _textFullname.text,
+                          name: _textUsername.text,
                           phone: _textPhonenumber.text,
                           nid_number: _textNID.text,
                           email: _textEmail.text,
@@ -925,7 +925,7 @@ class _AddMemberState extends State<AddMember> {
       SIGNINRESPONSE = loginobject;
       print(loginobject.accessToken);
 
-      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
+      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
       CASHWALLET = SIGNINRESPONSE.data.cash;
 
       APITOKEN = loginobject.accessToken;

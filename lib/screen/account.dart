@@ -431,7 +431,7 @@ class _AccountState extends State<Account> {
                               padding: const EdgeInsets.only(top: 20, left: 10, bottom: 5),
                               child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Text(widget.ProfData.rank)),
+                                  child: Text(widget.ProfData.rank.toString())),
                             ),
                             const Divider(
                               thickness: 1, // thickness of the line

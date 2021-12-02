@@ -236,13 +236,13 @@ class _TransferMoneyState extends State<TransferMoney> {
 
                       amount = int.parse(_textamountd.text);
                       password = int.parse(_textpasswordd.text) ;
-                      if(amount > OUTSOURCINGWALLET){
+                      if(amount < 500){
                         AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Insufficient balance');
                       }
                       else if(amount == 0){
                         AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Balance is zero');
                       }
-                      else if(amount == OUTSOURCINGWALLET || amount < OUTSOURCINGWALLET || password == USERPASS){
+                      else if(amount == 500 || amount > 500 || password == USERPASS){
 
                          BalanceTransferController.requestThenResponsePrint(context,APITOKEN, amount).then((value) {
                            print(value.statusCode);
@@ -263,8 +263,6 @@ class _TransferMoneyState extends State<TransferMoney> {
                            }
                          }
                          );
-
-
 
                       }
 
@@ -305,7 +303,7 @@ class _TransferMoneyState extends State<TransferMoney> {
       SIGNINRESPONSE = loginobject;
       print(loginobject.accessToken);
 
-      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
+      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
       CASHWALLET = SIGNINRESPONSE.data.cash;
 
 

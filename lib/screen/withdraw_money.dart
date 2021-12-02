@@ -282,15 +282,15 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                   );
                                   amountt = int.parse(_textAmount.text);
                                   passw = int.parse(_textPassword.text);
-                                  if (amountt > CASHWALLET) {
+                                  if (amountt < 500) {
                                     //amount = OUTSOURCINGWALLET - passw;
                                     AlertDialogueHelper().showAlertDialog(
-                                        context, 'Warning', 'Given amount is invalid');
+                                        context, 'Warning', 'Minimum balance should be 500');
                                   } else if (amountt == 0) {
                                     AlertDialogueHelper().showAlertDialog(
                                         context, 'Warning', 'Balance is zero');
-                                  } else if (amountt == CASHWALLET ||
-                                      amountt < CASHWALLET || passw == USERPASS) {
+                                  } else if (amountt == 500 ||
+                                      amountt > 500 || passw == USERPASS) {
 
                                       WithdrawController
                                               .requestThenResponsePrint(
@@ -360,7 +360,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
       SIGNINRESPONSE = loginobject;
       print(loginobject.accessToken);
 
-      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
+      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
       CASHWALLET = SIGNINRESPONSE.data.cash;
 
       APITOKEN = loginobject.accessToken;

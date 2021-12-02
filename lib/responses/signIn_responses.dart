@@ -42,7 +42,7 @@ class Data {
     required this.name,
     required this.email,
     required this.phone,
-    this.packageValidity,
+    required this.packageValidity,
     required this.packageName,
     required this.district,
     required this.area,
@@ -51,9 +51,8 @@ class Data {
     required this.rank,
     required this.cash,
     required this.outsourcing,
-    this.purchase,
-    required this.investment,
     required this.shopping,
+    required this.totalEarn,
     required this.withdrawAmount,
     required this.dailyCommotion,
     required this.dailyAddLimit,
@@ -71,25 +70,24 @@ class Data {
   dynamic packageValidity;
   String packageName;
   String district;
-  String area;
+  dynamic area;
   String image;
   String type;
   String rank;
   double cash;
-  int outsourcing;
-  dynamic purchase;
-  String investment;
-  String shopping;
-  String withdrawAmount;
-  String dailyCommotion;
-  String dailyAddLimit;
+  double outsourcing;
+  double shopping;
+  double totalEarn;
+  double withdrawAmount;
+  double dailyCommotion;
+  int dailyAddLimit;
   int leftUsers;
   int rightUsers;
-  String leftCarry;
-  String rightCarry;
+  int leftCarry;
+  int rightCarry;
   String password;
 
-  factory Data.fromJson(Map<dynamic, dynamic> json) => Data(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
     name: json["name"],
     email: json["email"],
@@ -97,23 +95,22 @@ class Data {
     packageValidity: json["package_validity"],
     packageName: json["package_name"],
     district: json["district"],
-    area: json["area"].toString(),
+    area: json["area"],
     image: json["image"],
     type: json["type"],
     rank: json["rank"].toString(),
     cash: json["cash"].toDouble(),
-    outsourcing: json["outsourcing"],
-    purchase: json["purchase"],
-    investment: json["investment"].toString(),
-    shopping: json["shopping"].toString(),
-    withdrawAmount: json["withdraw_amount"].toString(),
-    dailyCommotion: json["daily_commotion"].toString(),
-    dailyAddLimit: json["daily_add_limit"].toString(),
+    outsourcing: json["outsourcing"].toDouble(),
+    shopping: json["shopping"].toDouble(),
+    totalEarn: json["total_earn"].toDouble(),
+    withdrawAmount: json["withdraw_amount"].toDouble(),
+    dailyCommotion: json["daily_commotion"].toDouble(),
+    dailyAddLimit: json["daily_add_limit"],
     leftUsers: json["left_users"],
     rightUsers: json["right_users"],
-    leftCarry: json["left_carry"].toString(),
-    rightCarry: json["right_carry"].toString(),
-    password: json["password"].toString(),
+    leftCarry: json["left_carry"],
+    rightCarry: json["right_carry"],
+    password: json["password"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -121,7 +118,7 @@ class Data {
     "name": name,
     "email": email,
     "phone": phone,
-    "package_validity": packageValidity,
+    "package_validity": "${packageValidity.year.toString().padLeft(4, '0')}-${packageValidity.month.toString().padLeft(2, '0')}-${packageValidity.day.toString().padLeft(2, '0')}",
     "package_name": packageName,
     "district": district,
     "area": area,
@@ -130,9 +127,8 @@ class Data {
     "rank": rank,
     "cash": cash,
     "outsourcing": outsourcing,
-    "purchase": purchase,
-    "investment": investment,
     "shopping": shopping,
+    "total_earn": totalEarn,
     "withdraw_amount": withdrawAmount,
     "daily_commotion": dailyCommotion,
     "daily_add_limit": dailyAddLimit,

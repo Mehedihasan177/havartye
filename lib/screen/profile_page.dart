@@ -27,11 +27,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
 
-  Data profData = new Data( name: 'name', email: 'email', phone: 'phone',
+  Data profData = Data( name: 'name', email: 'email', phone: 'phone',
      district: 'district', area: 'area',
-      image: 'image', type: 'type', rank: '999',
-      withdrawAmount: "999",
-      dailyAddLimit: "999", investAmount: "999", dailyCommission: "999", totalEarn: "999"
+      image: 'image', type: 'type', rank: "999",
+      withdrawAmount:999,
+      dailyAddLimit: 999,  totalEarn: 999, leftUsers: 999,
+      cash: 999, packageName: '', packageValidity: "999", rightCarry: 999,
+      rightUsers: 999, shopping: 999, id: 99, leftCarry: 999, outsourcing: 999, dailyCommotion: 999, password: ''
   );
 
 
@@ -131,15 +133,15 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Row(
                 children: [
                   Container(
-                    height: 160,
+                    height: 130,
                     width: 130,
                     child: Image(
-                      image: AssetImage(profData.image),
+                      image: AssetImage("assets/vf.png"),
                       fit: BoxFit.fill,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding: const EdgeInsets.only(left: 10, top: 20),
                     child: Container(
                       width: 230,
                       child: Column(children: [
@@ -312,7 +314,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 15,
                         ),
                         Text(
-                          "\৳" + profData.dailyCommission.toString(),
+                          "\৳" + profData.dailyCommotion.toString(),
 
                           style: TextStyle(
                               color: Colors.black,

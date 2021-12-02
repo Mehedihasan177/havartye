@@ -124,6 +124,7 @@ class _AdViewUIState extends State<AdViewUI> {
   }
 
   void availBobus() {
+
     AdCountController.requestThenResponsePrint(APITOKEN).then((value) {
       setState(() {
         print(value.statusCode);
@@ -131,6 +132,8 @@ class _AdViewUIState extends State<AdViewUI> {
         if(value.statusCode==200){
           // AdViewResponse adViewResponse = AdViewResponse.fromJson(jsonDecode(value.body));
           signInAgain();
+          AlertDialogueHelper().showAlertDialog(context, 'Successful',
+              'bonus successfully added in Outsourcing Wallet');
         }
         else{
           AlertDialogueHelper().showAlertDialog(context, 'Warning',
@@ -159,7 +162,7 @@ class _AdViewUIState extends State<AdViewUI> {
       SIGNINRESPONSE = loginobject;
       print(loginobject.accessToken);
 
-      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
+      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
       CASHWALLET = SIGNINRESPONSE.data.cash;
 
 

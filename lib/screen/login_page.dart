@@ -34,8 +34,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _isloading = false;
   bool _passwordVisible = false;
-  TextEditingController _textEmail = TextEditingController(text: "z");
-  TextEditingController _textPassword = TextEditingController(text: "1122");
+  TextEditingController _textEmail = TextEditingController();
+  TextEditingController _textPassword = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -198,7 +198,8 @@ class _LoginPageState extends State<LoginPage> {
                     SIGNINRESPONSE = loginobject;
                     print(loginobject.accessToken);
 
-                    OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
+                    OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
+                    OUTSOURCINGWALLET = SIGNINRESPONSE.data.dailyCommotion.floor();
                     CASHWALLET = SIGNINRESPONSE.data.cash;
 
                     USERID = SIGNINRESPONSE.data.id;

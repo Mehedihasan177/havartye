@@ -50,8 +50,8 @@ class Datum {
   int adLimit;
   String type;
   String duration;
-  int amount;
-  int dailyBonus;
+  double amount;
+  double dailyBonus;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -61,8 +61,8 @@ class Datum {
     adLimit: json["ad_limit"],
     type: json["type"],
     duration: json["duration"],
-    amount: json["amount"],
-    dailyBonus: json["daily_bonus"],
+    amount: json["amount"].toDouble(),
+    dailyBonus: json["daily_bonus"].toDouble(),
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );
