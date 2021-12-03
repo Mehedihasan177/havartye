@@ -1371,7 +1371,7 @@ bool isVisible = true;
                       Text(
                         "\৳" + amount.toString(),
                         style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),

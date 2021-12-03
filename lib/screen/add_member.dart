@@ -236,7 +236,7 @@ class _AddMemberState extends State<AddMember> {
                                   width: 20,
                                 ),
                                 Text(
-                                  "User Name",
+                                  "Name",
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
@@ -251,7 +251,7 @@ class _AddMemberState extends State<AddMember> {
                               //scrollPadding: EdgeInsets.all(10),
                               decoration: InputDecoration(
                                 //contentPadding: EdgeInsets.all(20),
-                                hintText: "Enter your username",
+                                hintText: "Enter your name",
                               ),
                             ),
                           ),
@@ -279,7 +279,7 @@ class _AddMemberState extends State<AddMember> {
                                   width: 20,
                                 ),
                                 Text(
-                                  "Full name",
+                                  "Username",
                                   style: TextStyle(fontSize: 17),
                                 ),
                               ],
@@ -294,7 +294,7 @@ class _AddMemberState extends State<AddMember> {
                               //scrollPadding: EdgeInsets.all(10),
                               decoration: InputDecoration(
                                 //contentPadding: EdgeInsets.all(20),
-                                hintText: "Enter your fullname",
+                                hintText: "Enter your username",
                               ),
                             ),
                           ],
@@ -885,7 +885,18 @@ class _AddMemberState extends State<AddMember> {
 
                           } else {
                             AlertDialogueHelper().showAlertDialog(
-                                context, 'Warning', 'User name already exist');
+                                context, 'Warning',
+                                value.body
+                                    .replaceAll('"', ' ')
+                                    .replaceAll('{', ' ')
+                                    .replaceAll('}', ' ')
+                                    .replaceAll('[', ' ')
+                                    .replaceAll(']', ' ')
+
+                            );
+
+
+
                           }
                         });
                       },
