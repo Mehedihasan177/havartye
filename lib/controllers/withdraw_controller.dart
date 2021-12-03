@@ -14,6 +14,7 @@ class WithdrawController{
 
     Map data1 = {
       'amount': "${withDrawModel.amount}",
+      'method_name': "${withDrawModel.method_name}",
     };
 
     // Here we are getting the response

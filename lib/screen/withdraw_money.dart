@@ -26,6 +26,7 @@ class WithdrawMoney extends StatefulWidget {
 class _WithdrawMoneyState extends State<WithdrawMoney> {
   TextEditingController _textAmount = TextEditingController();
   TextEditingController _textPassword = TextEditingController();
+  TextEditingController _textPayment = TextEditingController();
   bool isChecked = false;
   bool isChecked2 = false;
   bool isChecked3 = false;
@@ -33,6 +34,11 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
   WithdrawTo values = withdrawtoitems.first;
   int passChange = 1;
   int amount = 0;
+  String myCurrentPos = '';
+  PaymentMethod position = paymentmethod.first;
+  late PaymentMethod withdrawmodel;
+  List<PaymentMethod> withdrawmodellist = [];
+
   @override
   Widget build(BuildContext context) {
     int passw, amountt;
@@ -137,8 +143,63 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 15,
+                    ),
 
+                    Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.only(left: 16, bottom: 10),
+                          child: Text(
+                            "Select a gateway method",
+                            style: TextStyle(fontSize: 17),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Container(
+                            // alignment: Alignment.center,
+                            // height:
+                            //     MediaQuery.of(context).size.height * 0.067,
+                            width: MediaQuery.of(context).size.width * 0.87,
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: DropdownButton<PaymentMethod>(
+                              isExpanded: true,
+                              value: position, // currently selected item
+                              items: paymentmethod
+                                  .map((item) => DropdownMenuItem<PaymentMethod>(
+                                        child: Row(
+                                          children: [
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              item.title,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.black),
+                                            ),
+                                          ],
+                                        ),
+                                        value: item,
+                                      ))
+                                  .toList(),
+                              onChanged: (value) => setState(() {
+                                this.position = value!;
+                                print(this.position.title);
+                                print(this.position.paymentMethod);
+                                myCurrentPos = this.position.paymentMethod;
+                              }),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 17),
+
                     Text(
                       "Cash Wallet Balance: $CASHWALLET",
                       style: TextStyle(fontSize: 17),
@@ -149,27 +210,14 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                     ///gateway methods
 
                     Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(left: 40),
                       child: Row(
-
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-
                         children: [
                           Expanded(
                             child: Row(
                               children: [
-                                Checkbox(
-                                  //activeColor: Colors.red, //The color to use when this checkbox is checked.
-                                  //checkColor: Colors.blue,
-
-                                  value: isChecked,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isChecked = value!;
-                                    });
-                                  },
-                                ),
                                 Container(
                                     height: 30,
                                     width: 30,
@@ -180,42 +228,22 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                           Expanded(
                             child: Row(
                               children: [
-                                Checkbox(
-                                  //activeColor: Colors.red, //The color to use when this checkbox is checked.
-                                  //checkColor: Colors.blue,
-
-                                  value: isChecked2,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isChecked2 = value!;
-                                    });
-                                  },
-                                ),
                                 Container(
                                     height: 30,
                                     width: 30,
-                                    child: Image.asset("assets/nagad_image.png")),
+                                    child:
+                                        Image.asset("assets/nagad_image.png")),
                               ],
                             ),
                           ),
                           Expanded(
                             child: Row(
                               children: [
-                                Checkbox(
-                                  //activeColor: Colors.red, //The color to use when this checkbox is checked.
-                                  //checkColor: Colors.blue,
-
-                                  value: isChecked3,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isChecked3 = value!;
-                                    });
-                                  },
-                                ),
                                 Container(
                                     height: 30,
                                     width: 30,
-                                    child: Image.asset("assets/rocket_logo.png")),
+                                    child:
+                                        Image.asset("assets/rocket_logo.png")),
                               ],
                             ),
                           ),
@@ -277,21 +305,35 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                 onPressed: () {
                                   print("token of user\n");
                                   print("token at call : " + APITOKEN);
-                                  WithDrawModel pass = new WithDrawModel(
-                                    amount: _textAmount.text,
-                                  );
-                                  amountt = int.parse(_textAmount.text);
-                                  passw = int.parse(_textPassword.text);
-                                  if (amountt < 500) {
-                                    //amount = OUTSOURCINGWALLET - passw;
-                                    AlertDialogueHelper().showAlertDialog(
-                                        context, 'Warning', 'Minimum balance should be 500');
-                                  } else if (amountt == 0) {
-                                    AlertDialogueHelper().showAlertDialog(
-                                        context, 'Warning', 'Balance is zero');
-                                  } else if (amountt == 500 ||
-                                      amountt > 500 || passw == USERPASS) {
+                                  String _password = _textPassword.text.trim();
 
+                                  if (_password.length < 6) {
+                                    AlertDialogueHelper().showAlertDialog(
+                                        context,
+                                        'Warning',
+                                        'Minimum password length need to 6');
+                                  } else {
+                                    WithDrawModel pass = new WithDrawModel(
+                                      amount: _textAmount.text,
+                                      method_name: myCurrentPos,
+                                      //method_name: '',
+                                    );
+                                    amountt = int.parse(_textAmount.text);
+                                    passw = int.parse(_textPassword.text);
+                                    if (amountt < 500) {
+                                      //amount = OUTSOURCINGWALLET - passw;
+                                      AlertDialogueHelper().showAlertDialog(
+                                          context,
+                                          'Warning',
+                                          'Minimum balance should be 500');
+                                    } else if (amountt == 0) {
+                                      AlertDialogueHelper().showAlertDialog(
+                                          context,
+                                          'Warning',
+                                          'Balance is zero');
+                                    } else if (amountt == 500 ||
+                                        amountt > 500 ||
+                                        passw == USERPASS) {
                                       WithdrawController
                                               .requestThenResponsePrint(
                                                   APITOKEN, pass)
@@ -316,14 +358,18 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                               '',
                                               'Withdraw Successful');
                                           signInAgain(context);
-                                        } else {
+                                        }
+                                        else if(value.statusCode == 500){
                                           AlertDialogueHelper().showAlertDialog(
-                                              context,
-                                              'Warning',
-                                              'Please recheck password or amount');
+                                              context, 'Warning', "please select a gateway method");
+                                        }
+
+                                        else {
+                                          AlertDialogueHelper().showAlertDialog(
+                                              context, 'Warning', value.body);
                                         }
                                       });
-
+                                    }
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(

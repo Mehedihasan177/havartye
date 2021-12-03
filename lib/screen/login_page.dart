@@ -42,13 +42,13 @@ class _LoginPageState extends State<LoginPage> {
     _passwordVisible = false;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: ListView(
-
         children: [
           Center(
             child: Container(
@@ -103,7 +103,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
-
           SizedBox(
             height: 10,
           ),
@@ -168,7 +167,6 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(
             height: 30,
           ),
-
           Center(
             child: Container(
               height: MediaQuery.of(context).size.height * 0.07,
@@ -179,56 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                   "Sign In",
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
-                onPressed: () async {
-
-                  EasyLoading.show(status: 'loading...');
-                  SignInModel myInfo = new SignInModel(
-                      password: _textPassword.text, name: _textEmail.text);
-                  await SigninController.requestThenResponsePrint(myInfo)
-                      .then((value) async {
-
-                    print(value.statusCode);
-                    print(value.body);
-                    if (value.statusCode == 200) {
-
-
-                    final Map parsed = json.decode(value.body);
-
-                    final loginobject = SignInResponse.fromJson(parsed);
-                    SIGNINRESPONSE = loginobject;
-                    print(loginobject.accessToken);
-
-                    OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
-                    OUTSOURCINGWALLET = SIGNINRESPONSE.data.dailyCommotion.floor();
-                    CASHWALLET = SIGNINRESPONSE.data.cash;
-
-                    USERID = SIGNINRESPONSE.data.id;
-
-
-                        APITOKEN = loginobject.accessToken;
-                    // sharedPreferences.setString("token", loginobject.accessToken);
-                    EasyLoading.dismiss();
-
-                      print("name: " + _textEmail.text);
-                      print("password: "+ _textPassword.text);
-                      // sharedPreferences.setString("name", _textEmail.text);
-                      // sharedPreferences.setString("password", _textPassword.text);
-                      USERNAME = _textEmail.text;
-                      USERPASS = _textPassword.text;
-
-                      return Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BottomNevigation()),
-                      );
-                    } else if(value.statusCode != 200) {
-                      EasyLoading.dismiss();
-                      // return LoginController.requestThenResponsePrint(jsonData);
-                      AlertDialogueHelper().showAlertDialog(context, 'Warning',
-                          'Please recheck name or password');
-                    }
-                  });
-                },
+                onPressed: () => _login(_textPassword, _textEmail, context),
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xFF0040A1),
                   shape: RoundedRectangleBorder(
@@ -244,4 +193,57 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+_login(TextEditingController textPassword, TextEditingController textEmail,
+    BuildContext context) async {
+
+  String _password = textPassword.text.trim();
+ // EasyLoading.show(status: 'loading...');
+   if (_password.length < 6) {
+     AlertDialogueHelper().showAlertDialog(
+         context, 'Warning', 'Minimum password length need to 6');
+  }else{
+    SignInModel myInfo =
+    new SignInModel(password: textPassword.text, name: textEmail.text);
+    await SigninController.requestThenResponsePrint(myInfo).then((value) async {
+      print(value.statusCode);
+      print(value.body);
+      if (value.statusCode == 200) {
+        final Map parsed = json.decode(value.body);
+
+        final loginobject = SignInResponse.fromJson(parsed);
+        SIGNINRESPONSE = loginobject;
+        print(loginobject.accessToken);
+
+        OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
+        OUTSOURCINGWALLET = SIGNINRESPONSE.data.dailyCommotion.floor();
+        CASHWALLET = SIGNINRESPONSE.data.cash;
+
+        USERID = SIGNINRESPONSE.data.id;
+
+        APITOKEN = loginobject.accessToken;
+// sharedPreferences.setString("token", loginobject.accessToken);
+        EasyLoading.dismiss();
+
+        print("name: " + textEmail.text);
+        print("password: " + textPassword.text);
+// sharedPreferences.setString("name", _textEmail.text);
+// sharedPreferences.setString("password", _textPassword.text);
+        USERNAME = textEmail.text;
+        USERPASS = textPassword.text;
+
+        return Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => BottomNevigation()),
+        );
+      } else if (value.statusCode != 200) {
+        EasyLoading.dismiss();
+// return LoginController.requestThenResponsePrint(jsonData);
+        AlertDialogueHelper().showAlertDialog(
+            context, 'Warning', 'Please recheck name or password');
+      }
+    });
+  }
+
 }

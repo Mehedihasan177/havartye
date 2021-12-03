@@ -18,6 +18,7 @@ import 'package:havartye/screen/dropdown_button_district.dart';
 import 'package:havartye/screen/dropdown_button_placement_position.dart';
 import 'package:havartye/responses/district_responses.dart' as dist;
 import 'package:havartye/responses/division_responses.dart' as div;
+import 'package:havartye/screen/home_page.dart';
 
 import 'add_member_successfull.dart';
 
@@ -848,58 +849,9 @@ class _AddMemberState extends State<AddMember> {
                         "Create Account",
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
-                      onPressed: () {
-                        print("token of user\n");
-                        print("token at call mehedi hasan who are you: " +
-                            APITOKEN);
-                        CreateAccountModel passChange = new CreateAccountModel(
-                          user_name: _textFullname.text,
-                          name: _textUsername.text,
-                          phone: _textPhonenumber.text,
-                          nid_number: _textNID.text,
-                          email: _textEmail.text,
-                          pos_id: _textPosID.text,
-                          position: myCurrentPos.toString(),
-                          division_id: selectedDivision.id,
-                          district_id: selectedDistricts.id,
-                          area: _textArea.text,
-                          password: _textPassword.text,
-                        );
-
-                        CreateAccountController.requestThenResponsePrint(
-                                APITOKEN, passChange)
-                            .then((value) {
-                          print(value.statusCode);
-                          print(value.body);
-                          if (value.statusCode == 200) {
-                            print("successfully done");
-                            AlertDialogueHelper().showAlertDialog(
-                                context,
-                                'Congratulation',
-                                'Successfully account created');
-                            signInAgain(context);
-                            // Navigator.pushReplacement(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => RegistrationSuccessfull()));
-
-                          } else {
-                            AlertDialogueHelper().showAlertDialog(
-                                context, 'Warning',
-                                value.body
-                                    .replaceAll('"', ' ')
-                                    .replaceAll('{', ' ')
-                                    .replaceAll('}', ' ')
-                                    .replaceAll('[', ' ')
-                                    .replaceAll(']', ' ')
-
-                            );
-
-
-
-                          }
-                        });
-                      },
+                      onPressed: () => _addmember(_textUsername, _textFullname,
+                          _textPhonenumber, _textNID, _textEmail, _textPosID, myCurrentPos,
+                        selectedDivision.id, selectedDistricts.id, _textArea, _textPassword, context),
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xFF1A150D),
                         shape: RoundedRectangleBorder(
@@ -953,6 +905,67 @@ class _AddMemberState extends State<AddMember> {
         // return LoginController.requestThenResponsePrint(jsonData);
         AlertDialogueHelper().showAlertDialog(
             context, 'Warning', 'Please recheck email and password');
+      }
+    });
+  }
+}
+
+_addmember(TextEditingController textUsername, TextEditingController textFullname, TextEditingController textPhonenumber,
+    TextEditingController textNID, TextEditingController textEmail, TextEditingController textPosID,
+    int myCurrentPos, int id, int id2, TextEditingController textArea, TextEditingController textPassword,
+    BuildContext context) async{
+  String _password = textPassword.text.trim();
+  print("token of user\n");
+  print("token at call mehedi hasan who are you: " +
+      APITOKEN);
+
+
+  if(_password.length < 6){
+    AlertDialogueHelper().showAlertDialog(
+        context, 'Warning', 'Minimum password length need to 6');
+  } else {
+    CreateAccountModel passChange = new CreateAccountModel(
+      name: textUsername.text,
+      user_name: textFullname.text,
+      phone: textPhonenumber.text,
+      nid_number: textNID.text,
+      email: textEmail.text,
+      pos_id: textPosID.text,
+      position: myCurrentPos.toString(),
+      division_id: id,
+      district_id: id2,
+      area: textArea.text,
+      password: textPassword.text,
+    );
+
+    CreateAccountController.requestThenResponsePrint(
+        APITOKEN, passChange)
+        .then((value) {
+      print(value.statusCode);
+      print(value.body);
+      if (value.statusCode == 200) {
+        print("successfully done");
+        AlertDialogueHelper().showAlertDialog(
+            context,
+            'Congratulation',
+            'Successfully account created');
+        signInAgain(context);
+        // Navigator.pushReplacement(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => RegistrationSuccessfull()));
+
+      } else {
+        AlertDialogueHelper().showAlertDialog(
+            context, 'Warning',
+            value.body
+                .replaceAll('"', ' ')
+                .replaceAll('{', ' ')
+                .replaceAll('}', ' ')
+                .replaceAll('[', ' ')
+                .replaceAll(']', ' ')
+
+        );
       }
     });
   }

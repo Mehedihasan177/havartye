@@ -230,43 +230,7 @@ class _TransferMoneyState extends State<TransferMoney> {
                       "Transfer",
                       style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
-                    onPressed: () {
-                      print("token of user\n");
-                      print("token at call : " + APITOKEN);
-
-                      amount = int.parse(_textamountd.text);
-                      password = int.parse(_textpasswordd.text) ;
-                      if(amount < 500){
-                        AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Insufficient balance');
-                      }
-                      else if(amount == 0){
-                        AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Balance is zero');
-                      }
-                      else if(amount == 500 || amount > 500 || password == USERPASS){
-
-                         BalanceTransferController.requestThenResponsePrint(context,APITOKEN, amount).then((value) {
-                           print(value.statusCode);
-                           if (value.statusCode == 200) {
-                             print("successfully done");
-                             print(value);
-                             print(value.body);
-
-                             BalanceTraNsferResponse withdraw = BalanceTraNsferResponse.fromJson(jsonDecode(value.body.toString()));
-                             print(withdraw);
-                             print(withdraw.amount);
-
-                             signInAgain(context);
-
-
-                           }else{
-                             AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Please recheck amount or password');
-                           }
-                         }
-                         );
-
-                      }
-
-                    },
+                    onPressed: () => _transfer(_textamountd, _textpasswordd, context),
 
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xFF0040A1).withOpacity(0.7),
@@ -329,4 +293,45 @@ class _TransferMoneyState extends State<TransferMoney> {
   }
 
 
+}
+
+_transfer(TextEditingController textamountd, TextEditingController textpasswordd, BuildContext context) async{
+  print("token of user\n");
+  print("token at call : " + APITOKEN);
+  String _password = textpasswordd.text.trim();
+  var amount = int.parse(textamountd.text);
+  var password = int.parse(textpasswordd.text) ;
+  if(amount < 500){
+    AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Insufficient balance');
+  }
+  else if(amount == 0){
+    AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Balance is zero');
+  }
+  else if(amount == 500 || amount > 500 || password == USERPASS){
+    if(_password.length < 6){
+      AlertDialogueHelper().showAlertDialog(
+          context, 'Warning', 'Minimum password length need to 6');
+    } else{
+      BalanceTransferController.requestThenResponsePrint(context,APITOKEN, amount).then((value) {
+      print(value.statusCode);
+      if (value.statusCode == 200) {
+        print("successfully done");
+        print(value);
+        print(value.body);
+
+        BalanceTraNsferResponse withdraw = BalanceTraNsferResponse.fromJson(jsonDecode(value.body.toString()));
+        print(withdraw);
+        print(withdraw.amount);
+
+        signInAgain(context);
+        AlertDialogueHelper().showAlertDialog(context, 'Congress', 'Money transfer successfully');
+
+      }else{
+        AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Please recheck amount or password');
+      }
+    }
+    );}
+
+
+  }
 }
