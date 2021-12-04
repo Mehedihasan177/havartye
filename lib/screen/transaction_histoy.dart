@@ -113,6 +113,14 @@ Widget buildTransactionTile(TransactionRe transaction) => SingleChildScrollView(
                         alignment: Alignment.centerLeft,
                         child: Text("Wallet: "+transaction.wallet.toString())),
                     Container(
+                        padding: EdgeInsets.only(bottom: 6),
+                        alignment: Alignment.centerLeft,
+                        child: Text("Referral name: "+transaction.affliate,
+                        // style: TextStyle(
+                        //   fontWeight: FontWeight.bold
+                        // ),
+                        )),
+                    Container(
                         alignment: Alignment.centerLeft,
                         child: Text(DateFormat("yyyy-MM-dd")
                             .format(transaction.createdAt))),

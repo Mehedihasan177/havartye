@@ -38,6 +38,7 @@ class TransactionRe {
     required this.transactionId,
     required this.title,
     required this.user,
+    required this.affliate,
     required this.type,
     required this.wallet,
     required this.amount,
@@ -48,6 +49,7 @@ class TransactionRe {
   String transactionId;
   String title;
   String user;
+  String affliate;
   String type;
   String wallet;
   int amount;
@@ -58,6 +60,7 @@ class TransactionRe {
     transactionId: json["transaction_id"],
     title: json["title"],
     user: json["user"],
+    affliate: json["affliate"],
     type: json["type"],
     wallet: json["wallet"],
     amount: json["amount"],
@@ -69,6 +72,7 @@ class TransactionRe {
     "transaction_id": transactionId,
     "title": title,
     "user": user,
+    "affliate": affliate,
     "type": type,
     "wallet": wallet,
     "amount": amount,

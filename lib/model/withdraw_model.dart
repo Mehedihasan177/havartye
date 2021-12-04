@@ -20,10 +20,9 @@ class PaymentMethod{
 
 }
 final List<PaymentMethod> paymentmethod = <PaymentMethod>[
-  PaymentMethod('Bkash', 'bkash'),
-  PaymentMethod('Rocket', 'rocket'),
-  PaymentMethod('Nagad', 'nagad'),
-
+  PaymentMethod('Bkash', 'Bkash'),
+  PaymentMethod('Rocket', 'Rocket'),
+  PaymentMethod('Nagad', 'Nagad'),
 
 ];
 
