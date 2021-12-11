@@ -6,7 +6,6 @@ import 'dart:io';
 
 void main() async{
   //WidgetsFlutterBinding.ensureInitialized();
-
   // if (Platform.isAndroid) {
   //   await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   // }

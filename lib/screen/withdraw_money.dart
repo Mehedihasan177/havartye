@@ -41,7 +41,8 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
 
   @override
   Widget build(BuildContext context) {
-    int passw, amountt;
+    int  amountt;
+    String passw;
     return WillPopScope(
       onWillPop: () async {
         Navigator.pushReplacement(context,
@@ -321,7 +322,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                       //method_name: '',
                                     );
                                     amountt = int.parse(_textAmount.text);
-                                    passw = int.parse(_textPassword.text);
+                                    passw = _textPassword.text;
                                     if (amountt < MIN_WITHDRAW) {
                                       //amount = OUTSOURCINGWALLET - passw;
                                       AlertDialogueHelper().showAlertDialog(
@@ -333,9 +334,13 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                           context,
                                           'Warning',
                                           'Balance is zero');
-                                    } else if (amountt == MIN_WITHDRAW ||
-                                        amountt > MIN_WITHDRAW ||
-                                        passw == USERPASS) {
+                                    }
+
+                                    else if(passw != USERPASS){
+                                      AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Password wrong');
+                                    }
+                                    else if (amountt == MIN_WITHDRAW ||
+                                        amountt > MIN_WITHDRAW ) {
                                       WithdrawController
                                               .requestThenResponsePrint(
                                                   APITOKEN, pass)

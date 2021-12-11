@@ -33,7 +33,7 @@ class _TransferMoneyState extends State<TransferMoney> {
     return WillPopScope(
 
       onWillPop: () async {
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => BottomNevigation()));
         return true;
       },
       child: Scaffold(
@@ -304,14 +304,17 @@ _transfer(TextEditingController textamountd, TextEditingController textpasswordd
   print(USERPASS);
 
   var amount = int.parse(textamountd.text);
-  var password = int.parse(textpasswordd.text) ;
+  var password = textpasswordd.text ;
   if(amount < MIN_TRANSFER){
     AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Insufficient balance');
   }
   else if(amount == 0){
     AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Balance is zero');
   }
-  else if(amount == MIN_TRANSFER || amount > MIN_TRANSFER || password == USERPASS){
+  else if(password != USERPASS){
+    AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Password wrong');
+  }
+  else if(amount == MIN_TRANSFER || amount > MIN_TRANSFER ){
     if(_password.length < 6){
       AlertDialogueHelper().showAlertDialog(
           context, 'Warning', 'Minimum password length need to 6');
