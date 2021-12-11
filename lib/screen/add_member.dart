@@ -958,7 +958,7 @@ class _AddMemberState extends State<AddMember> {
     }
     else if (id2==999) {
       AlertDialogueHelper().showAlertDialog(
-          context, 'Warning', 'Please Select a Valid District');
+          context, 'Warning', 'Please Select a Valid District in your Division');
     }
     else {
 
