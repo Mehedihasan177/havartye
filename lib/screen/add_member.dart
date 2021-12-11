@@ -952,6 +952,14 @@ class _AddMemberState extends State<AddMember> {
       AlertDialogueHelper().showAlertDialog(
           context, 'Warning', 'Please Enter a Valid Email');
     }
+    else if (id==999) {
+      AlertDialogueHelper().showAlertDialog(
+          context, 'Warning', 'Please Select a Valid Division');
+    }
+    else if (id2==999) {
+      AlertDialogueHelper().showAlertDialog(
+          context, 'Warning', 'Please Select a Valid District');
+    }
     else {
 
 
