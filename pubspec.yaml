@@ -45,6 +45,8 @@ dependencies:
   flutter_webview_plugin: ^0.4.0
   flutter_inappwebview: ^5.3.2
   flutter_custom_tabs: ^1.0.3
+  advance_pdf_viewer: ^2.0.0
+  email_validator: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -133,6 +135,8 @@ flutter:
     - assets/nagad_image.png
     - assets/rocket_logo.png
     - assets/vf.png
+    - assets/companyProfile.pdf
+    - assets/terms_and_condition.pdf
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

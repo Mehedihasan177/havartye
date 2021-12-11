@@ -162,7 +162,7 @@ class _AdViewUIState extends State<AdViewUI> {
       SIGNINRESPONSE = loginobject;
       print(loginobject.accessToken);
 
-      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
+      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
       CASHWALLET = SIGNINRESPONSE.data.cash;
 
 

@@ -216,8 +216,8 @@ _login(TextEditingController textPassword, TextEditingController textEmail,
         SIGNINRESPONSE = loginobject;
         print(loginobject.accessToken);
 
-        OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
-        OUTSOURCINGWALLET = SIGNINRESPONSE.data.dailyCommotion.floor();
+        OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
+        OUTSOURCINGWALLET = SIGNINRESPONSE.data.dailyCommotion;
         CASHWALLET = SIGNINRESPONSE.data.cash;
 
         USERID = SIGNINRESPONSE.data.id;

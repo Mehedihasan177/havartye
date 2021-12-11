@@ -173,7 +173,7 @@ class _TransferMoneyState extends State<TransferMoney> {
                   padding: EdgeInsets.only(left: 10),
                   child: TextField(
                     controller: _textpasswordd,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     style: TextStyle(color: Colors.black),
                     //scrollPadding: EdgeInsets.all(10),
                     decoration: InputDecoration(
@@ -267,7 +267,7 @@ class _TransferMoneyState extends State<TransferMoney> {
       SIGNINRESPONSE = loginobject;
       print(loginobject.accessToken);
 
-      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
+      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
       CASHWALLET = SIGNINRESPONSE.data.cash;
 
 
@@ -299,15 +299,19 @@ _transfer(TextEditingController textamountd, TextEditingController textpasswordd
   print("token of user\n");
   print("token at call : " + APITOKEN);
   String _password = textpasswordd.text.trim();
+
+  print('USERPASS form transfer');
+  print(USERPASS);
+
   var amount = int.parse(textamountd.text);
   var password = int.parse(textpasswordd.text) ;
-  if(amount < 500){
+  if(amount < MIN_TRANSFER){
     AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Insufficient balance');
   }
   else if(amount == 0){
     AlertDialogueHelper().showAlertDialog(context, 'Warning', 'Balance is zero');
   }
-  else if(amount == 500 || amount > 500 || password == USERPASS){
+  else if(amount == MIN_TRANSFER || amount > MIN_TRANSFER || password == USERPASS){
     if(_password.length < 6){
       AlertDialogueHelper().showAlertDialog(
           context, 'Warning', 'Minimum password length need to 6');

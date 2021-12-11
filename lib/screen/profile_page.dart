@@ -10,6 +10,7 @@ import 'package:havartye/responses/profile_responses.dart';
 import 'package:havartye/screen/account.dart';
 import 'package:havartye/screen/bottomnevigation/bottomnevigation.dart';
 import 'package:havartye/screen/splash_Screen.dart';
+import 'package:havartye/screen/t&c.dart';
 import 'package:havartye/screen/transaction_histoy.dart';
 import 'package:havartye/screen/tree.dart';
 import 'package:havartye/screen/withdraw_history.dart';
@@ -560,7 +561,7 @@ class _ProfilePageState extends State<ProfilePage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => BottomNevigation()));
+                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => TermsAndConditions()));
                 },
                 style: ButtonStyle(
                   // foregroundColor:

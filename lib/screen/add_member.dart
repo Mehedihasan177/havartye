@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:havartye/constents/constant.dart';
@@ -38,7 +39,15 @@ class _AddMemberState extends State<AddMember> {
   TextEditingController _textArea = TextEditingController();
   TextEditingController _textPassword = TextEditingController();
   TextEditingController _textTransactionPassword = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
 
+  @override
+  void dispose() {
+    emailController.dispose();
+
+    super.dispose();
+  }
   District value = district.first;
   PlacementPosition position = placementpositon.first;
   bool checkbox = false;
@@ -386,7 +395,7 @@ class _AddMemberState extends State<AddMember> {
                                 hintText: "Enter your email",
                               ),
                             ),
-                          ),
+                          )
                         ],
                       ),
                       SizedBox(
@@ -612,7 +621,7 @@ class _AddMemberState extends State<AddMember> {
                               //scrollPadding: EdgeInsets.all(10),
                               decoration: InputDecoration(
                                 //contentPadding: EdgeInsets.all(20),
-                                hintText: "your username",
+                                hintText: "Sponsor username",
                               ),
                             ),
                           ),
@@ -888,7 +897,7 @@ class _AddMemberState extends State<AddMember> {
       SIGNINRESPONSE = loginobject;
       print(loginobject.accessToken);
 
-      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
+      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
       CASHWALLET = SIGNINRESPONSE.data.cash;
 
       APITOKEN = loginobject.accessToken;
@@ -899,7 +908,7 @@ class _AddMemberState extends State<AddMember> {
         USERPASS = USERPASS;
         return Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => BottomNevigation()),
+          MaterialPageRoute(builder: (context) => AddMember()),
         );
       } else {
         // return LoginController.requestThenResponsePrint(jsonData);
@@ -908,66 +917,103 @@ class _AddMemberState extends State<AddMember> {
       }
     });
   }
-}
+  _addmember(TextEditingController textUsername, TextEditingController textFullname, TextEditingController textPhonenumber,
+      TextEditingController textNID, TextEditingController textEmail, TextEditingController textPosID,
+      int myCurrentPos, int id, int id2, TextEditingController textArea, TextEditingController textPassword,
+      BuildContext context) async {
+    String _password = textPassword.text.trim();
+    String _phone_number = textPhonenumber.text.trim();
+    print("token of user\n");
+    print("token at call mehedi hasan who are you: " +
+        APITOKEN);
 
-_addmember(TextEditingController textUsername, TextEditingController textFullname, TextEditingController textPhonenumber,
-    TextEditingController textNID, TextEditingController textEmail, TextEditingController textPosID,
-    int myCurrentPos, int id, int id2, TextEditingController textArea, TextEditingController textPassword,
-    BuildContext context) async{
-  String _password = textPassword.text.trim();
-  print("token of user\n");
-  print("token at call mehedi hasan who are you: " +
-      APITOKEN);
 
 
-  if(_password.length < 6){
-    AlertDialogueHelper().showAlertDialog(
-        context, 'Warning', 'Minimum password length need to 6');
-  } else {
-    CreateAccountModel passChange = new CreateAccountModel(
-      name: textUsername.text,
-      user_name: textFullname.text,
-      phone: textPhonenumber.text,
-      nid_number: textNID.text,
-      email: textEmail.text,
-      pos_id: textPosID.text,
-      position: myCurrentPos.toString(),
-      division_id: id,
-      district_id: id2,
-      area: textArea.text,
-      password: textPassword.text,
-    );
 
-    CreateAccountController.requestThenResponsePrint(
-        APITOKEN, passChange)
-        .then((value) {
-      print(value.statusCode);
-      print(value.body);
-      if (value.statusCode == 200) {
-        print("successfully done");
-        AlertDialogueHelper().showAlertDialog(
-            context,
-            'Congratulation',
-            'Successfully account created');
-        signInAgain(context);
-        // Navigator.pushReplacement(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => RegistrationSuccessfull()));
 
-      } else {
+    if (_password.length < 6) {
+      AlertDialogueHelper().showAlertDialog(
+          context, 'Warning', 'Minimum password length need to 6');
+    }
+
+    else if (_textUsername.text.length < 1) {
+      AlertDialogueHelper().showAlertDialog(
+          context, 'Warning', 'Please Enter a valid Username');
+    }
+    else if (_textUsername.text.contains(' ')) {
+      AlertDialogueHelper().showAlertDialog(
+          context, 'Warning', 'Please Enter a valid Username without Space');
+    }
+    else if (_phone_number.length != 11) {
+      AlertDialogueHelper().showAlertDialog(
+          context, 'Warning', 'Phone number is less or more than 11');
+    }
+    else if (!(RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(_textEmail.text))) {
+      AlertDialogueHelper().showAlertDialog(
+          context, 'Warning', 'Please Enter a Valid Email');
+    }
+    else {
+
+
+      if (true) {
+      CreateAccountModel passChange = new CreateAccountModel(
+        name: textUsername.text,
+        user_name: textFullname.text,
+        phone: textPhonenumber.text,
+        nid_number: textNID.text,
+        email: textEmail.text,
+        pos_id: textPosID.text,
+        position: myCurrentPos.toString(),
+        division_id: id,
+        district_id: id2,
+        area: textArea.text,
+        password: textPassword.text,
+      );
+
+
+      CreateAccountController.requestThenResponsePrint(
+          APITOKEN, passChange)
+          .then((value) {
+        print(value.statusCode);
+        print(value.body);
+        if (value.statusCode == 200) {
+          print("successfully done");
+          AlertDialogueHelper().showAlertDialog(
+              context,
+              'Congratulation',
+              'Successfully account created');
+          signInAgain(context);
+          // Navigator.pushReplacement(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => RegistrationSuccessfull()));
+
+
+        } else {
+          AlertDialogueHelper().showAlertDialog(
+              context, 'Warning',
+              value.body
+                  .replaceAll('"', ' ')
+                  .replaceAll('{', ' ')
+                  .replaceAll('}', ' ')
+                  .replaceAll('[', ' ')
+                  .replaceAll(']', ' ')
+          );
+        }
+      });
+    }
+      else{
         AlertDialogueHelper().showAlertDialog(
             context, 'Warning',
-            value.body
-                .replaceAll('"', ' ')
-                .replaceAll('{', ' ')
-                .replaceAll('}', ' ')
-                .replaceAll('[', ' ')
-                .replaceAll(']', ' ')
+            "fuck yourself"
+
 
         );
       }
-    });
+    }
+
   }
 }
+
+
 // Color(0xFF0040A1),

@@ -34,6 +34,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'ad_viewUI.dart';
 import 'bottomnevigation/bottomnevigation.dart';
+import 'company_profile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -53,7 +54,7 @@ class _HomePageState extends State<HomePage> {
   String type = "t";
   String amount = "d";
   String dailyBonus = "a";
-bool isVisible = true;
+bool isVisible = false;
 
   int isday = 0;
 
@@ -85,14 +86,17 @@ bool isVisible = true;
         print(current.data.amount);
         Name = current.data.name;
         amount = current.data.amount;
+
+        setState(() {
+          isVisible = !isVisible;
+        });
+
         //dailyBonus = current.data.dailyBonus;
         //AdLimit = current.data.adLimit;
       } else {
         // AlertDialogueHelper().showAlertDialog(context, 'Warning',
         //     'current package is not available');
-        setState(() {
-          isVisible = !isVisible;
-        });
+
       }
     });
   }
@@ -427,7 +431,7 @@ bool isVisible = true;
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              HotelBooking()));
+                                              CompanyProfile()));
                                 }, // Handle your callback.
 
                                 child: Ink(
@@ -1418,7 +1422,7 @@ Future<void> signInAgain(BuildContext context) async {
     SIGNINRESPONSE = loginobject;
     print(loginobject.accessToken);
 
-    OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
+    OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
     CASHWALLET = SIGNINRESPONSE.data.cash;
 
     APITOKEN = loginobject.accessToken;

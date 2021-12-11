@@ -128,7 +128,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                           padding: EdgeInsets.only(left: 10),
                           child: TextField(
                             controller: _textPassword,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.text,
                             style: TextStyle(color: Colors.black),
                             //scrollPadding: EdgeInsets.all(10),
                             decoration: InputDecoration(
@@ -306,6 +306,8 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                   print("token of user\n");
                                   print("token at call : " + APITOKEN);
                                   String _password = _textPassword.text.trim();
+                                  print('USERPASS form withdraw');
+                                  print(USERPASS);
 
                                   if (_password.length < 6) {
                                     AlertDialogueHelper().showAlertDialog(
@@ -320,7 +322,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                     );
                                     amountt = int.parse(_textAmount.text);
                                     passw = int.parse(_textPassword.text);
-                                    if (amountt < 500) {
+                                    if (amountt < MIN_WITHDRAW) {
                                       //amount = OUTSOURCINGWALLET - passw;
                                       AlertDialogueHelper().showAlertDialog(
                                           context,
@@ -331,8 +333,8 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
                                           context,
                                           'Warning',
                                           'Balance is zero');
-                                    } else if (amountt == 500 ||
-                                        amountt > 500 ||
+                                    } else if (amountt == MIN_WITHDRAW ||
+                                        amountt > MIN_WITHDRAW ||
                                         passw == USERPASS) {
                                       WithdrawController
                                               .requestThenResponsePrint(
@@ -406,7 +408,7 @@ class _WithdrawMoneyState extends State<WithdrawMoney> {
       SIGNINRESPONSE = loginobject;
       print(loginobject.accessToken);
 
-      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing.floor();
+      OUTSOURCINGWALLET = SIGNINRESPONSE.data.outsourcing;
       CASHWALLET = SIGNINRESPONSE.data.cash;
 
       APITOKEN = loginobject.accessToken;
